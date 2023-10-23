@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset Davydovskyi:1.0
 INSERT INTO person (person_name, person_birth_date)
 VALUES ('Emma Watson', '1990-04-25'),
        ('Brad Pitt', '1963-12-18'),
@@ -25,6 +28,7 @@ VALUES ('Emma Watson', '1990-04-25'),
        ('Heath Ledger', '1979-04-04'),
        ('Denis Villeneuve', '1967-10-03');
 
+--changeset Davydovskyi:2.0
 INSERT INTO movie (movie_title, release_year, movie_country, movie_genre, movie_description)
 VALUES ('The Dark Knight', 2008, 'the USA', 'ACTION',
         'The plot follows the vigilante Batman, police lieutenant James Gordon, and district attorney Harvey Dent, who form an alliance to dismantle organized crime in Gotham City. Their efforts are derailed by the Joker, an anarchistic mastermind who seeks to test how far Batman will go to save the city from chaos.'),
@@ -59,6 +63,7 @@ VALUES ('The Dark Knight', 2008, 'the USA', 'ACTION',
        ('Harry Potter and the Deathly Hallows: Part 2', 2011, 'United Kingdom', 'FANTASY',
         'Harry, Ron and Hermione race against time to destroy the remaining Horcruxes. Meanwhile, the students and teachers unite to defend Hogwarts against Lord Voldemort and the Death Eaters.');
 
+--changeset Davydovskyi:3.0
 INSERT INTO movie_person (movie_id, person_id, person_role)
 VALUES (1, 10, 'COMPOSER'),
        (1, 19, 'ACTOR'),
@@ -110,12 +115,14 @@ VALUES (1, 10, 'COMPOSER'),
        (16, 3, 'ACTOR'),
        (16, 4, 'ACTOR');
 
+--changeset Davydovskyi:4.0
 INSERT INTO users (user_name, user_birth_date, user_image, user_email, user_password, role, gender)
 VALUES ('user1', '2000-01-01', 'userImage/user1.PNG', 'user1@gmail.com', '{noop}123', 'USER', 'MALE'),
        ('user2', '1999-01-01', 'userImage/user2.PNG', 'user2@gmail.com', '{noop}112', 'USER', 'FEMALE'),
        ('user3', '1995-01-01', 'userImage/user3.PNG', 'user3@gmail.com', '{noop}987', 'USER', 'MALE'),
        ('admin', '1990-01-01', 'userImage/admin.PNG', 'admin@gmail.com', '{noop}998', 'ADMIN', 'MALE');
 
+--changeset Davydovskyi:5.0
 INSERT INTO review (movie_id, user_id, review_text, rate)
 VALUES (1, 1, 'Nice movie.', 9),
        (1, 3, 'One of my favorite movies. Watched it many times, definitely recommended!', 10),
