@@ -5,21 +5,27 @@
     <title>Registration</title>
 </head>
 <body>
+<div th:insert="~{fragment :: header}"></div>
 <form enctype="multipart/form-data" method="post" th:action="@{/users}" th:object="${user}">
-    <label for="email">Email:
+    <label for="email">
+        <span th:text="#{login.email}">Email</span>:
         <input id="email" name="email" required th:value="*{email()}" type="text">
     </label><br>
-    <label for="rawPassword">Password:
+    <label for="rawPassword">
+        <span th:text="#{login.password}">Password</span>:
         <input id="rawPassword" name="rawPassword" required type="password">
     </label><br>
-    <label for="birthDate">BirthDate:
+    <label for="birthDate">
+        <span th:text="#{registration.birthdate}">BirthDate</span>:
         <input id="birthDate" min="1900-01-01" name="birthDate" required
                th:value="*{birthDate()}" type="date">
     </label><br>
-    <label for="username">UserName:
+    <label for="username">
+        <span th:text="#{registration.username}">UserName</span>:
         <input id="username" name="username" required th:value="*{username()}" type="text">
     </label><br>
-    <label for="image">Image:
+    <label for="image">
+        <span th:text="#{registration.avatar}">Avatar</span>:
         <input id="image" name="image" type="file">
     </label><br>
     <input name="role" th:value="${userRole}" type="hidden">
@@ -28,7 +34,9 @@
                th:checked="${gender == user.gender()}" th:id="${gender}" th:value="${gender}" type="radio">
         <label th:for="${gender}" th:text="${gender}">Gender:</label>
     </div>
-    <button type="submit">Register</button>
+    <button type="submit">
+        <span th:text="#{login.register}">Register</span>
+    </button>
 </form>
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
