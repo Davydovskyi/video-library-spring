@@ -20,7 +20,7 @@ public class SecurityConfiguration {
                                 antMatcher(HttpMethod.POST, "/users")).permitAll()
                         .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/login")
-                        .defaultSuccessUrl("/users"));
+                        .defaultSuccessUrl("/login"));
         return http.build();
     }
 }
