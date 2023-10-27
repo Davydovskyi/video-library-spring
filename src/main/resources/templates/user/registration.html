@@ -7,35 +7,26 @@
 <body>
 <form enctype="multipart/form-data" method="post" th:action="@{/users}" th:object="${user}">
     <label for="email">Email:
-        <input id="email" name="email" th:value="*{email()}" type="text">
+        <input id="email" name="email" required th:value="*{email()}" type="text">
     </label><br>
     <label for="rawPassword">Password:
-        <input id="rawPassword" name="rawPassword" type="password">
+        <input id="rawPassword" name="rawPassword" required type="password">
     </label><br>
     <label for="birthDate">BirthDate:
-        <input id="birthDate" name="birthDate" th:value="*{birthDate()}" type="date">
+        <input id="birthDate" min="1900-01-01" name="birthDate" required
+               th:value="*{birthDate()}" type="date">
     </label><br>
     <label for="username">UserName:
-        <input id="username" name="username" th:value="*{username()}" type="text">
+        <input id="username" name="username" required th:value="*{username()}" type="text">
     </label><br>
     <label for="image">Image:
         <input id="image" name="image" type="file">
     </label><br>
+    <input name="role" th:value="${userRole}" type="hidden">
     <div th:each="gender : ${genders}">
-        <input name="gender" th:checked="${gender == user.gender()}"
-               th:id="${gender}" th:value="${gender}" type="radio">
+        <input name="gender" required
+               th:checked="${gender == user.gender()}" th:id="${gender}" th:value="${gender}" type="radio">
         <label th:for="${gender}" th:text="${gender}">Gender:</label>
-    </div>
-    <div>
-        <label for="companyId">Company:
-            <select id="companyId" name="companyId">
-                <option th:each="company : ${companies}"
-                        th:selected="${company.id() == user.companyId()}"
-                        th:text="${company.name()}"
-                        th:value="${company.id()}">Company
-                </option>
-            </select>
-        </label><br>
     </div>
     <button type="submit">Register</button>
 </form>

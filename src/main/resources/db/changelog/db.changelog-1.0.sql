@@ -15,7 +15,7 @@ CREATE TABLE users
     user_birth_date DATE,
     user_image      VARCHAR(124),
     user_email      VARCHAR(124) NOT NULL UNIQUE,
-    user_password   VARCHAR(32)  NOT NULL,
+    user_password   VARCHAR(124) NOT NULL,
     role            VARCHAR(32)  NOT NULL,
     gender          VARCHAR(16)
 );
@@ -58,7 +58,7 @@ CREATE TABLE review
 (
     review_id   SERIAL PRIMARY KEY,
     movie_id    INTEGER      NOT NULL REFERENCES movie (movie_id) ON DELETE CASCADE,
-    user_id     INTEGER      NOT NULL REFERENCES users (user_id) ON DELETE RESTRICT,
+    user_id     BIGINT       NOT NULL REFERENCES users (user_id) ON DELETE RESTRICT,
     review_text VARCHAR(256) NOT NULL,
     rate        SMALLINT     NOT NULL,
     UNIQUE (movie_id, user_id)

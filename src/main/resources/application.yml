@@ -15,3 +15,6 @@ spring:
         jdbc:
           fetch_size: 100
           batch_size: 100
+  servlet:
+    multipart:
+      max-file-size: 5MB

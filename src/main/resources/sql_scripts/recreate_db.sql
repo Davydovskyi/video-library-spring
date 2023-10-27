@@ -49,7 +49,7 @@ CREATE TABLE review
 (
     review_id   SERIAL PRIMARY KEY,
     movie_id    INTEGER      NOT NULL REFERENCES movie (movie_id) ON DELETE CASCADE,
-    user_id     INTEGER      NOT NULL REFERENCES users (user_id) ON DELETE RESTRICT,
+    user_id     BIGINT       NOT NULL REFERENCES users (user_id) ON DELETE RESTRICT,
     review_text VARCHAR(256) NOT NULL,
     rate        SMALLINT     NOT NULL,
     UNIQUE (movie_id, user_id)
