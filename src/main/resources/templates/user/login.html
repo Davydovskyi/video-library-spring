@@ -10,10 +10,10 @@
     <div style="color: red" th:if="${param.error}">
         <span th:text="#{login.error.invalid.credentials}">Bad credentials</span>
     </div>
-    <label for="email"><span th:text="#{login.email}">Email:</span>
+    <label for="email"><span th:text="#{email}">Email:</span>
         <input id="email" name="username" type="text">
     </label><br>
-    <label for="password"><span th:text="#{login.password}">Password:</span>
+    <label for="password"><span th:text="#{password}">Password:</span>
         <input id="password" name="password" type="password">
     </label><br>
     <button type="submit">
@@ -21,7 +21,7 @@
     </button>
 </form>
 <button onclick="location.href='/registration'" type="button">
-    <span th:text="#{login.register}">Registration</span>
+    <span th:text="#{register}">Registration</span>
 </button>
 </body>
 </html>
