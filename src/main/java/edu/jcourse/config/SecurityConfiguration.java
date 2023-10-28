@@ -20,7 +20,7 @@ public class SecurityConfiguration {
                                 antMatcher(HttpMethod.POST, "/users")).permitAll()
                         .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/login")
-                        .defaultSuccessUrl("/login"))
+                        .defaultSuccessUrl("/users"))
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
                         .deleteCookies("JSESSIONID"));

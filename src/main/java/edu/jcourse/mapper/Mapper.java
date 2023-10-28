@@ -7,4 +7,8 @@ public interface Mapper<F, T> {
     default T map(F from, T to) {
         return to;
     }
+
+    default T fullMap(F from) {
+        return null;
+    }
 }

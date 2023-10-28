@@ -16,6 +16,19 @@ public class UserReadMapper implements Mapper<User, UserReadDto> {
 
     @Override
     public UserReadDto map(User from) {
+        return UserReadDto.builder()
+                .id(from.getId())
+                .username(from.getUserName())
+                .email(from.getEmail())
+                .birthDate(from.getBirthDate())
+                .role(from.getRole())
+                .gender(from.getGender())
+                .image(from.getUserImage())
+                .build();
+    }
+
+    @Override
+    public UserReadDto fullMap(User from) {
         List<ReviewReadDto> reviews = from.getReviews().stream()
                 .map(reviewReadMapper::map)
                 .toList();

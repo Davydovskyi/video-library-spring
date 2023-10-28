@@ -8,11 +8,11 @@
 <div th:insert="~{fragment :: header}"></div>
 <form action="/users">
     <label for="email">
-        <input id="email" name="email" th:placeholder="#{email}" th:value="${filter.firstName()}" type="text">
+        <input id="email" name="email" th:placeholder="#{email}" th:value="${filter.email()}" type="text">
         <!--        name should be the same as fields in UserFilter -->
     </label>
     <label for="username">
-        <input id="username" name="username" th:placeholder="#{username}" th:value="${filter.lastName()}" type="text">
+        <input id="username" name="username" th:placeholder="#{username}" th:value="${filter.username()}" type="text">
     </label>
     <div>
         <label for="page">
@@ -23,6 +23,16 @@
             <span th:text="#{users.size}">Size</span>:
             <input id="size" name="size" th:value="${users.metaData().size()}" type="number">
         </label>
+        <label for="sortBy">
+            <span th:text="#{users.sortBy}">Sort By</span>:
+            <select id="sortBy" name="sortBy">
+                <option th:each="sortBy : ${sorts}"
+                        th:selected="${sortBy == filter.sortBy()}"
+                        th:text="${sortBy.getName()}"
+                        th:value="${sortBy}">SortBy
+                </option>
+            </select>
+        </label>
     </div>
     <button type="submit">
         <span th:text="#{users.search}">Search</span>
@@ -30,7 +40,7 @@
 </form>
 
 <div th:each="user : ${users.content()}">
-    <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.username()}|">User</a>
+    <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.username()}(${user.email()})|">User</a>
 </div>
 </body>
 </html>

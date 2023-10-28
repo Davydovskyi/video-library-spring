@@ -1,16 +1,24 @@
 package edu.jcourse.http.controller;
 
+import edu.jcourse.database.entity.Gender;
+import edu.jcourse.database.entity.Role;
+import edu.jcourse.dto.PageResponse;
 import edu.jcourse.dto.UserCreateEditDto;
+import edu.jcourse.dto.UserFilter;
+import edu.jcourse.dto.UserReadDto;
 import edu.jcourse.service.UserService;
 import edu.jcourse.validation.group.CreateUserAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -19,6 +27,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    public String findAll(Model model, UserFilter filter, Pageable pageable) {
+        Page<UserReadDto> users = userService.findAll(filter, pageable);
+        model.addAttribute("users", PageResponse.of(users));
+        model.addAttribute("filter", filter);
+        model.addAttribute("sorts", UserFilter.Sort.values());
+        return "user/users";
+    }
+
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Long id, Model model) {
+        return userService.findById(id)
+                .map(user -> {
+                    model.addAttribute("user", user);
+                    model.addAttribute("roles", Role.values());
+                    model.addAttribute("genders", Gender.values());
+                    return "user/user";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 
     @PostMapping
     public String create(@ModelAttribute @Validated({Default.class, CreateUserAction.class}) UserCreateEditDto user,
