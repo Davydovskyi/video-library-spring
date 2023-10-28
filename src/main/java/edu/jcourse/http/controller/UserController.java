@@ -8,6 +8,7 @@ import edu.jcourse.dto.UserFilter;
 import edu.jcourse.dto.UserReadDto;
 import edu.jcourse.service.UserService;
 import edu.jcourse.validation.group.CreateUserAction;
+import edu.jcourse.validation.group.UpdateUserAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -61,5 +62,28 @@ public class UserController {
 
         userService.create(user);
         return "redirect:/login";
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Long id,
+                         @ModelAttribute @Validated({Default.class, UpdateUserAction.class}) UserCreateEditDto user,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("user", user);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/users/{id}";
+        }
+        return userService.update(id, user)
+                .map(it -> "redirect:/users/{id}")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        if (!userService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/users";
     }
 }

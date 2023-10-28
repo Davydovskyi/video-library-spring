@@ -68,6 +68,25 @@ public class UserService implements UserDetailsService {
                 .map(userReadMapper::map);
     }
 
+    @Transactional
+    public Optional<UserReadDto> update(Long id, UserCreateEditDto userDto) {
+        return userRepository.findById(id)
+                .map(user -> userCreateEditMapper.map(userDto, user))
+                .map(userRepository::saveAndFlush)
+                .map(userReadMapper::map);
+    }
+
+    @Transactional
+    public boolean delete(Long id) {
+        return userRepository.findById(id)
+                .map(entity -> {
+                    userRepository.delete(entity);
+                    userRepository.flush();
+                    return true;
+                })
+                .orElse(false);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)

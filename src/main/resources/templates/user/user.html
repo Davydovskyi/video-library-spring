@@ -50,5 +50,8 @@
         <span th:text="#{delete}">Delete</span>
     </button>
 </form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
 </body>
 </html>
