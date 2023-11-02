@@ -1,7 +1,8 @@
-package edu.jcourse.mapper;
+package edu.jcourse.mapper.user;
 
 import edu.jcourse.database.entity.User;
-import edu.jcourse.dto.UserCreateEditDto;
+import edu.jcourse.dto.user.UserCreateEditDto;
+import edu.jcourse.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

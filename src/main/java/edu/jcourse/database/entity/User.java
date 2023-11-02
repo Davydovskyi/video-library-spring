@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@ToString(exclude = {"reviews"})
-@EqualsAndHashCode(exclude = {"reviews"})
+@ToString(exclude = {"movie.reviews"})
+@EqualsAndHashCode(exclude = {"movie.reviews"})
 @AllArgsConstructor
 @Entity
 @Builder

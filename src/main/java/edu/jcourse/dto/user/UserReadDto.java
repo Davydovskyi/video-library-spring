@@ -1,7 +1,8 @@
-package edu.jcourse.dto;
+package edu.jcourse.dto.user;
 
 import edu.jcourse.database.entity.Gender;
 import edu.jcourse.database.entity.Role;
+import edu.jcourse.dto.review.ReviewReadDto;
 import lombok.Builder;
 
 import java.time.LocalDate;

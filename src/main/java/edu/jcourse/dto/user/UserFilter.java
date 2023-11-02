@@ -1,4 +1,4 @@
-package edu.jcourse.dto;
+package edu.jcourse.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;

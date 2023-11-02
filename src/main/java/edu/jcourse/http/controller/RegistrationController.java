@@ -2,7 +2,7 @@ package edu.jcourse.http.controller;
 
 import edu.jcourse.database.entity.Gender;
 import edu.jcourse.database.entity.Role;
-import edu.jcourse.dto.UserCreateEditDto;
+import edu.jcourse.dto.user.UserCreateEditDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
