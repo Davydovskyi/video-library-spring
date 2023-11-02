@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie</title>
+</head>
+<body>
+<!--<div th:insert="~{fragment :: header}"></div>-->
+<h1 th:text="${movie.title()}">Title</h1>
+<div>
+    <span th:text="#{movie.genre}">Genre</span>: <span th:text="#{${movie.genre().getCode()}}"/><br>
+    <span th:text="#{movie.releaseYear}">Release Year</span>: <span th:text="${movie.releaseYear()}"/><br>
+    <span th:text="#{movie.country}">Country</span>: <span th:text="${movie.country()}"/><br>
+    <span th:text="#{movie.description}">Description</span>: <span th:text="${movie.description()}"/><br>
+    <span th:text="#{movie.movieParticipants}">Movie Participants</span>:<br>
+    <ol>
+        <div th:each="movie_person : ${movie.moviePersons()}" varStatus="loop">
+            <li value="${loop.index + 1}">
+                <a th:href="@{'/person/' + ${movie_person.person().id()}}"
+                   th:text="|${movie_person.person().name()}(${movie_person.person().birthDate().getYear()}) -
+                #{${movie_person.role().getCode()}}|">Person</a>
+            </li>
+        </div>
+    </ol>
+    <br>
+    <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+        <button th:href="@{/movies/{movieId}/preupdate(movieId=${movie.id()})}" type="button">
+            <span th:text="#{movie.update}">Update movie</span>
+        </button>
+    </div>
+    <form method="post" th:action="@{/movies/{movieId}/delete(movieId=${movie.id()})}"
+          th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+        <button type="submit">
+            <span th:text="#{delete}">Delete</span>
+        </button>
+    </form>
+    <div>
+        <button th:href="@{/reviews/{movieId}(movieId=${movie.id()})}" type="button">
+            <span th:text="#{movie.add.review}">Add Review</span>
+        </button>
+    </div>
+
+    <div th:if="${!reviews.isEmpty()}">
+        <table style="width: 100%;margin-left:20px">
+            <caption><b>
+                <span th:text="#{movie.reviews}">Reviews</span>
+            </b></caption>
+            <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 50px;">
+                <col style="width: 200px;">
+            </colgroup>
+            <thead>
+            <tr style="text-align: left">
+                <th>
+                    <span th:text="#{review.rate}">Rate</span>
+                </th>
+                <th>
+                    <span th:text="#{review.user}">User</span>
+                </th>
+                <th>
+                    <span th:text="#{review.text}">Review</span>
+                </th>
+            </tr>
+            </thead>
+
+            <div th:each="review : ${reviews}">
+                <tbody>
+                <tr>
+                    <td th:text="${review.rate()}">Rate</td>
+                    <td>
+                        <a th:href="@{/users/{userId}(userId=${review.user().id()})}"
+                           th:text="${review.user().username()}">User</a>
+                    </td>
+                    <td th:text="${review.reviewText()}">Review text</td>
+                </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
+</div>
+</body>
+</html>

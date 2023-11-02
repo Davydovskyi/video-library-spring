@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <table style="width: 100%;margin-left:20px">
+        <caption><b>
+            <span th:text="#{movie.reviews}">Reviews</span>:
+        </b></caption>
+        <div th:if="${user.reviews()}">
+            <colgroup>
+                <col style="width: 200px;">
+                <col style="width: 20px;">
+                <col style="width: 200px;">
+            </colgroup>
+            <thead>
+            <tr style="text-align: left">
+                <th>
+                    <span th:text="#{movie}">Movie</span>
+                </th>
+                <th>
+                    <span th:text="#{review.rate}">Rate</span>
+                </th>
+                <th>
+                    <span th:text="#{review.text}">Review</span>
+                </th>
+            </tr>
+            </thead>
+
+            <div th:each="review : ${user.reviews()}">
+                <a th:href="@{'/movies/' + ${review}}" th:text="|${user.id()}. ${user.username()}|">User</a>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/movie/${review.movie().movieId()}">
+                            ${review.movie().movieData()}</a>
+                    </td>
+                    <td>${review.rate()}</td>
+                    <td>${review.reviewText()}</td>
+                </tr>
+                </tbody>
+            </div>
+        </div>
+    </table>
+</div>
+</body>
+</html>

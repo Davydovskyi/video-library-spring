@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+</head>
+<body>
+<!--<div th:insert="~{fragment :: header}"></div>-->
+<form action="/movies">
+    <label for="title">
+        <input id="title" name="title" th:placeholder="#{movie.title}" th:value="${filter.title()}" type="text">
+    </label>
+    <label for="country">
+        <input id="country" name="country" th:placeholder="#{movie.country}" th:value="${filter.country()}" type="text">
+    </label>
+    <label for="releaseYear">
+        <input id="releaseYear" min="1900" name="releaseYear"
+               th:placeholder="#{movie.releaseYear}" th:value="${filter.releaseYear()}" type="number">
+    </label>
+    <label for="genre">
+        <span th:text="#{movie.genre}">Genre</span>:
+        <select id="genre" name="genre">
+            <option></option>
+            <option th:each="genre : ${genres}"
+                    th:selected="${genre == filter.genre()}"
+                    th:text="#{${genre.getCode()}}"
+                    th:value="${genre}">
+            </option>
+        </select>
+    </label>
+    <div>
+        <label for="page">
+            <span th:text="#{page}">Page</span>:
+            <input id="page" name="page" th:value="${movies.metaData().page()}" type="number">
+        </label>
+        <label for="size">
+            <span th:text="#{size}">Size</span>:
+            <input id="size" name="size" th:value="${movies.metaData().size()}" type="number">
+        </label>
+        <label for="sortBy">
+            <span th:text="#{sortBy}">Sort By</span>:
+            <select id="sortBy" name="sortBy">
+                <option th:each="sortBy : ${sorts}"
+                        th:selected="${sortBy == filter.sortBy()}"
+                        th:text="${sortBy.getName()}"
+                        th:value="${sortBy}">SortBy
+                </option>
+            </select>
+        </label>
+    </div>
+    <button type="submit">
+        <span th:text="#{search}">Search</span>
+    </button>
+</form>
+<div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+    <button onclick="location.href='/movies/add'" type="button">
+        <span th:text="#{movie.add}">Add Movie</span>
+    </button>
+</div>
+
+<div th:each="movie : ${movies.content()}">
+    <a th:href="@{'/movies/' + ${movie.id()}}"
+       th:text="|${movie.id()}. ${movie.title()}(${movie.genre().getCode()}, ${movie.releaseYear()}, ${movie.country()})|">Movie</a>
+</div>
+</body>
+</html>
