@@ -24,6 +24,9 @@
     </ol>
     <br>
     <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+        <button th:href="@{/movie-persons/{movieId}/(movieId=${movie.id()})}" type="button">
+            <span th:text="#{movie.update}">Add Participant</span>
+        </button>
         <button th:href="@{/movies/{movieId}/preupdate(movieId=${movie.id()})}" type="button">
             <span th:text="#{movie.update}">Update movie</span>
         </button>

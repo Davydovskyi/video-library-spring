@@ -1,10 +1,13 @@
 package edu.jcourse.service;
 
 import com.querydsl.core.types.Predicate;
+import edu.jcourse.database.entity.Movie;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.MovieRepository;
+import edu.jcourse.dto.movie.MovieCreateEditDto;
 import edu.jcourse.dto.movie.MovieFilter;
 import edu.jcourse.dto.movie.MovieReadDto;
+import edu.jcourse.mapper.movie.MovieCreateEditMapper;
 import edu.jcourse.mapper.movie.MovieReadMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static edu.jcourse.database.entity.QMovie.movie;
@@ -25,6 +29,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final MovieReadMapper movieReadMapper;
+    private final MovieCreateEditMapper movieCreateEditMapper;
 
     public Page<MovieReadDto> findAll(MovieFilter filter, Pageable pageable) {
         Predicate predicate = QPredicates.builder()
@@ -47,5 +52,25 @@ public class MovieService {
     public Optional<MovieReadDto> findById(Integer id) {
         return movieRepository.findById(id)
                 .map(movieReadMapper::fullMap);
+    }
+
+    @Transactional
+    public MovieReadDto create(MovieCreateEditDto movie) {
+        return Optional.of(movie)
+                .map(movieCreateEditMapper::map)
+                .map(movieRepository::save)
+                .map(movieReadMapper::map)
+                .orElseThrow();
+    }
+
+    public Optional<MovieReadDto> findByAllFields(MovieFilter filter) {
+        Predicate predicate = QPredicates.builder()
+                .add(filter.title(), movie.title::equalsIgnoreCase)
+                .add(filter.releaseYear(), movie.releaseYear::eq)
+                .add(filter.country(), movie.country::equalsIgnoreCase)
+                .add(filter.genre(), movie.genre::eq)
+                .buildAnd();
+        Iterator<Movie> iterator = movieRepository.findAll(predicate).iterator();
+        return iterator.hasNext() ? Optional.of(movieReadMapper.map(iterator.next())) : Optional.empty();
     }
 }

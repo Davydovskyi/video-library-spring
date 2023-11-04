@@ -1,20 +1,25 @@
 package edu.jcourse.http.controller;
 
 import edu.jcourse.database.entity.Genre;
+import edu.jcourse.database.entity.PersonRole;
 import edu.jcourse.dto.PageResponse;
+import edu.jcourse.dto.movie.MovieCreateEditDto;
 import edu.jcourse.dto.movie.MovieFilter;
 import edu.jcourse.dto.movie.MovieReadDto;
 import edu.jcourse.service.MovieService;
+import edu.jcourse.validation.group.CreateAction;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,5 +48,28 @@ public class MovieController {
                     return "movie/movie";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/add")
+    public String add(Model model,
+                      @ModelAttribute("movie") MovieCreateEditDto movie) {
+        model.addAttribute("movie", movie);
+        model.addAttribute("genres", Genre.values());
+        model.addAttribute("movieRoles", PersonRole.values());
+        return "movie/add-movie";
+    }
+
+    @PostMapping
+    public String create(@ModelAttribute @Validated({Default.class, CreateAction.class}) MovieCreateEditDto movie,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("movie", movie);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/movies/add";
+        }
+
+        movieService.create(movie);
+        return "redirect:/movies";
     }
 }

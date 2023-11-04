@@ -7,8 +7,8 @@ import edu.jcourse.dto.user.UserCreateEditDto;
 import edu.jcourse.dto.user.UserFilter;
 import edu.jcourse.dto.user.UserReadDto;
 import edu.jcourse.service.UserService;
-import edu.jcourse.validation.group.CreateUserAction;
-import edu.jcourse.validation.group.UpdateUserAction;
+import edu.jcourse.validation.group.CreateAction;
+import edu.jcourse.validation.group.UpdateAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute @Validated({Default.class, CreateUserAction.class}) UserCreateEditDto user,
+    public String create(@ModelAttribute @Validated({Default.class, CreateAction.class}) UserCreateEditDto user,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -66,7 +66,7 @@ public class UserController {
 
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id,
-                         @ModelAttribute @Validated({Default.class, UpdateUserAction.class}) UserCreateEditDto user,
+                         @ModelAttribute @Validated({Default.class, UpdateAction.class}) UserCreateEditDto user,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {

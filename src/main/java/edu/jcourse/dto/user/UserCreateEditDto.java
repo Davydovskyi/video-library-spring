@@ -4,8 +4,8 @@ import edu.jcourse.database.entity.Gender;
 import edu.jcourse.database.entity.Role;
 import edu.jcourse.validation.EmailInfo;
 import edu.jcourse.validation.MultipartFileInfo;
-import edu.jcourse.validation.group.CreateUserAction;
-import edu.jcourse.validation.group.UpdateUserAction;
+import edu.jcourse.validation.group.CreateAction;
+import edu.jcourse.validation.group.UpdateAction;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +18,10 @@ import static edu.jcourse.util.RegexUtil.EMAIL_REGEX;
 public record UserCreateEditDto(
         @NotEmpty(message = "{registration.error.email.empty}")
         @Email(message = "{registration.error.email.format}", regexp = EMAIL_REGEX)
-        @EmailInfo(groups = {CreateUserAction.class})
+        @EmailInfo(groups = {CreateAction.class})
         String email,
 
-        @NotBlank(groups = {CreateUserAction.class}, message = "{registration.error.password.empty}")
+        @NotBlank(groups = {CreateAction.class}, message = "{registration.error.password.empty}")
         @Size(min = 8, message = "{registration.error.password.invalid}")
         String rawPassword,
 
@@ -38,6 +38,6 @@ public record UserCreateEditDto(
         @NotNull(message = "{registration.error.gender.empty}")
         Gender gender,
 
-        @MultipartFileInfo(groups = {CreateUserAction.class, UpdateUserAction.class})
+        @MultipartFileInfo(groups = {CreateAction.class, UpdateAction.class})
         MultipartFile image) {
 }

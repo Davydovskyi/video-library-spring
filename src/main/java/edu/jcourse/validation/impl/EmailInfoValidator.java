@@ -5,6 +5,7 @@ import edu.jcourse.validation.EmailInfo;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class EmailInfoValidator implements ConstraintValidator<EmailInfo, String> {
@@ -13,6 +14,9 @@ public class EmailInfoValidator implements ConstraintValidator<EmailInfo, String
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null && userService.findByEmail(value).isEmpty();
+        if (StringUtils.hasText(value)) {
+            return userService.findByEmail(value).isEmpty();
+        }
+        return true;
     }
 }

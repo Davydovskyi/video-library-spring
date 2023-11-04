@@ -48,8 +48,8 @@ CREATE INDEX movie_release_year_idx ON movie (release_year);
 CREATE TABLE movie_person
 (
     id          BIGSERIAL PRIMARY KEY,
-    movie_id    INTEGER      NOT NULL REFERENCES movie (movie_id) ON DELETE RESTRICT,
-    person_id   INTEGER      NOT NULL REFERENCES person (person_id) ON DELETE RESTRICT,
+    movie_id    INTEGER      NOT NULL REFERENCES movie (movie_id) ON DELETE CASCADE,
+    person_id   INTEGER      NOT NULL REFERENCES person (person_id) ON DELETE CASCADE,
     person_role VARCHAR(124) NOT NULL
 );
 

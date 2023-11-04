@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@ToString(exclude = {"movie.reviews", "moviePersons"})
-@EqualsAndHashCode(exclude = {"movie.reviews", "moviePersons"})
+@ToString(exclude = {"reviews", "moviePersons"})
+@EqualsAndHashCode(exclude = {"reviews", "moviePersons"})
 @NoArgsConstructor
 @Builder
 @Entity
@@ -38,7 +38,7 @@ public class Movie implements BaseEntity<Integer> {
     private String description;
 
     @Builder.Default
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<MoviePerson> moviePersons = new ArrayList<>();
 
     @Builder.Default

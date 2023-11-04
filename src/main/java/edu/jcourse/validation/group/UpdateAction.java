@@ -1,4 +1,4 @@
 package edu.jcourse.validation.group;
 
-public interface CreateUserAction {
+public interface UpdateAction {
 }
