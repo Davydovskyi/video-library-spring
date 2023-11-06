@@ -8,11 +8,11 @@
 <!--<div th:insert="~{fragment :: header}"></div>-->
 <h1 th:text="${movie.title()}">Title</h1>
 <div>
-    <span th:text="#{movie.genre}">Genre</span>: <span th:text="#{${movie.genre().getCode()}}"/><br>
-    <span th:text="#{movie.releaseYear}">Release Year</span>: <span th:text="${movie.releaseYear()}"/><br>
-    <span th:text="#{movie.country}">Country</span>: <span th:text="${movie.country()}"/><br>
-    <span th:text="#{movie.description}">Description</span>: <span th:text="${movie.description()}"/><br>
-    <span th:text="#{movie.movieParticipants}">Movie Participants</span>:<br>
+    <b th:text="#{movie.genre}">Genre</b>: <span th:text="#{${movie.genre().getCode()}}"/><br>
+    <b th:text="#{movie.releaseYear}">Release Year</b>: <span th:text="${movie.releaseYear()}"/><br>
+    <b th:text="#{movie.country}">Country</b>: <span th:text="${movie.country()}"/><br>
+    <b th:text="#{movie.description}">Description</b>: <span th:text="${movie.description()}"/><br>
+    <b th:text="#{movie.movieParticipants}">Movie Participants</b>:<br>
     <ol>
         <div th:each="movie_person : ${movie.moviePersons()}" varStatus="loop">
             <li value="${loop.index + 1}">
@@ -24,12 +24,12 @@
     </ol>
     <br>
     <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
-        <button th:href="@{/movie-persons/{movieId}/(movieId=${movie.id()})}" type="button">
-            <span th:text="#{movie.update}">Add Participant</span>
-        </button>
-        <button th:href="@{/movies/{movieId}/preupdate(movieId=${movie.id()})}" type="button">
-            <span th:text="#{movie.update}">Update movie</span>
-        </button>
+        <a th:href="@{/movie-persons/{movieId}/(movieId=${movie.id()})}">
+            <button th:text="#{add.participant.button}" type="button">Add Participant</button>
+        </a>
+        <a th:href="@{/movies/{movieId}/pre-update(movieId=${movie.id()})}">
+            <button th:text="#{movie.update}" type="button">Update movie</button>
+        </a>
     </div>
     <form method="post" th:action="@{/movies/{movieId}/delete(movieId=${movie.id()})}"
           th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
@@ -38,9 +38,9 @@
         </button>
     </form>
     <div>
-        <button th:href="@{/reviews/{movieId}(movieId=${movie.id()})}" type="button">
-            <span th:text="#{movie.add.review}">Add Review</span>
-        </button>
+        <a th:href="@{/reviews/{movieId}(movieId=${movie.id()})}">
+            <button th:text="#{movie.add.review}" type="button">Add Review</button>
+        </a>
     </div>
 
     <div th:if="${!reviews.isEmpty()}">

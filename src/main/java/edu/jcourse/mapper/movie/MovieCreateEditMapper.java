@@ -10,12 +10,22 @@ public class MovieCreateEditMapper implements Mapper<MovieCreateEditDto, Movie> 
 
     @Override
     public Movie map(MovieCreateEditDto from) {
-        return Movie.builder()
-                .releaseYear(from.releaseYear())
-                .country(from.country())
-                .genre(from.genre())
-                .title(from.title())
-                .description(from.description())
-                .build();
+        Movie movie = new Movie();
+        copy(from, movie);
+        return movie;
+    }
+
+    @Override
+    public Movie map(MovieCreateEditDto from, Movie to) {
+        copy(from, to);
+        return to;
+    }
+
+    private void copy(MovieCreateEditDto from, Movie to) {
+        to.setReleaseYear(from.releaseYear());
+        to.setCountry(from.country());
+        to.setGenre(from.genre());
+        to.setTitle(from.title());
+        to.setDescription(from.description());
     }
 }

@@ -6,7 +6,7 @@
 </head>
 <body>
 <!--<div th:insert="~{fragment :: header}"></div>-->
-<form action="#" method="post" th:action="@{/movies}" th:object="${movie}">
+<form method="post" th:action="@{/movies/{movieId}/update(movieId=${movie.id()})}" th:object="${movie}">
     <label for="title">
         <span th:text="#{movie.title}">Title</span>:
         <input id="title" name="title" required th:value="*{title()}" type="text">
@@ -32,14 +32,14 @@
         </select>
     </label><br>
     <label for="description">
-    <textarea cols="40"
+    <textarea class="form-control" cols="40"
               id="description"
               maxlength="700" name="description" required
               rows="4" th:placeholder="#{movie.description}" th:text="*{description()}"
               th:value="*{description()}"></textarea>
     </label><br>
     <button type="submit">
-        <span th:text="#{movie.add}">Create</span>
+        <span th:text="#{update}">Update</span>
     </button>
 </form>
 <div th:if="${errors}">

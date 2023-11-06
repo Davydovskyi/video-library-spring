@@ -1,7 +1,6 @@
 package edu.jcourse.http.controller;
 
 import edu.jcourse.database.entity.Genre;
-import edu.jcourse.database.entity.PersonRole;
 import edu.jcourse.dto.PageResponse;
 import edu.jcourse.dto.movie.MovieCreateEditDto;
 import edu.jcourse.dto.movie.MovieFilter;
@@ -55,7 +54,6 @@ public class MovieController {
                       @ModelAttribute("movie") MovieCreateEditDto movie) {
         model.addAttribute("movie", movie);
         model.addAttribute("genres", Genre.values());
-        model.addAttribute("movieRoles", PersonRole.values());
         return "movie/add-movie";
     }
 
@@ -70,6 +68,42 @@ public class MovieController {
         }
 
         movieService.create(movie);
+        return "redirect:/movies";
+    }
+
+    @GetMapping("/{id}/pre-update")
+    public String preUpdate(@PathVariable Integer id,
+                            Model model) {
+        return movieService.findById(id)
+                .map(movie -> {
+                    model.addAttribute("movie", movie);
+                    model.addAttribute("genres", Genre.values());
+                    return "movie/update-movie";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Integer id,
+                         @ModelAttribute @Validated MovieCreateEditDto movie,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("movie", movie);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/movies/{id}/pre-update";
+        }
+
+        return movieService.update(id, movie)
+                .map(it -> "redirect:/movies/{id}")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        if (!movieService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return "redirect:/movies";
     }
 }

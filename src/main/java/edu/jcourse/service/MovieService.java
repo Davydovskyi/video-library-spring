@@ -73,4 +73,23 @@ public class MovieService {
         Iterator<Movie> iterator = movieRepository.findAll(predicate).iterator();
         return iterator.hasNext() ? Optional.of(movieReadMapper.map(iterator.next())) : Optional.empty();
     }
+
+    @Transactional
+    public Optional<MovieReadDto> update(Integer id, MovieCreateEditDto movieDto) {
+        return movieRepository.findById(id)
+                .map(movie -> movieCreateEditMapper.map(movieDto, movie))
+                .map(movieRepository::saveAndFlush)
+                .map(movieReadMapper::map);
+    }
+
+    @Transactional
+    public boolean delete(Integer id) {
+        return movieRepository.findById(id)
+                .map(entity -> {
+                    movieRepository.delete(entity);
+                    movieRepository.flush();
+                    return true;
+                })
+                .orElse(false);
+    }
 }
