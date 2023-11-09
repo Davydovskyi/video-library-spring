@@ -38,7 +38,8 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable Integer id, Model model) {
+    public String findById(@PathVariable Integer id,
+                           Model model) {
         return movieService.findById(id)
                 .map(movie -> {
                     model.addAttribute("movie", movie);
@@ -66,7 +67,6 @@ public class MovieController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/movies/add";
         }
-
         movieService.create(movie);
         return "redirect:/movies";
     }

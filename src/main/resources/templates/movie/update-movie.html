@@ -2,42 +2,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Movie</title>
+    <title>Update Movie</title>
 </head>
 <body>
 <!--<div th:insert="~{fragment :: header}"></div>-->
 <form method="post" th:action="@{/movies/{movieId}/update(movieId=${movie.id()})}" th:object="${movie}">
-    <label for="title">
-        <span th:text="#{movie.title}">Title</span>:
-        <input id="title" name="title" required th:value="*{title()}" type="text">
-    </label><br>
-    <label for="releaseYear">
-        <span th:text="#{movie.releaseYear}">Release Year</span>:
-        <input id="releaseYear" min="1900" name="releaseYear" required th:value="*{releaseYear()}" type="number">
-    </label><br>
-    <label for="country">
-        <span th:text="#{movie.country}">Country</span>:
-        <input id="country" name="country"
-               required th:value="*{country()}" type="text">
-    </label><br>
-    <label for="genre">
-        <span th:text="#{movie.genre}">Genre</span>:
-        <select id="genre" name="genre" required>
-            <option disabled hidden selected></option>
-            <option th:each="genre : ${genres}"
-                    th:selected="${genre == movie.genre()}"
-                    th:text="#{${genre.getCode()}}"
-                    th:value="${genre}">Genre
-            </option>
-        </select>
-    </label><br>
-    <label for="description">
-    <textarea class="form-control" cols="40"
-              id="description"
-              maxlength="700" name="description" required
-              rows="4" th:placeholder="#{movie.description}" th:text="*{description()}"
-              th:value="*{description()}"></textarea>
-    </label><br>
+    <div th:insert="~{fragment :: add_update_form}"></div>
     <button type="submit">
         <span th:text="#{update}">Update</span>
     </button>

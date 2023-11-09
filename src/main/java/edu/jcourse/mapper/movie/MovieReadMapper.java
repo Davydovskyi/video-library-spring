@@ -18,7 +18,7 @@ public class MovieReadMapper implements Mapper<Movie, MovieReadDto> {
     private final MoviePersonReadMapper moviePersonReadMapper;
     private final ReviewReadMapper reviewReadMapper;
 
-    public MovieReadMapper(MoviePersonReadMapper moviePersonReadMapper, @Lazy ReviewReadMapper reviewReadMapper) {
+    public MovieReadMapper(@Lazy MoviePersonReadMapper moviePersonReadMapper, @Lazy ReviewReadMapper reviewReadMapper) {
         this.moviePersonReadMapper = moviePersonReadMapper;
         this.reviewReadMapper = reviewReadMapper;
     }
@@ -38,7 +38,7 @@ public class MovieReadMapper implements Mapper<Movie, MovieReadDto> {
     @Override
     public MovieReadDto fullMap(Movie from) {
         List<MoviePersonReadDto> moviePersons = from.getMoviePersons().stream()
-                .map(moviePersonReadMapper::map)
+                .map(moviePersonReadMapper::fullMap)
                 .toList();
 
         List<ReviewReadDto> reviews = from.getReviews().stream()

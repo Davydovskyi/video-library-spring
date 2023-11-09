@@ -23,64 +23,69 @@
         </div>
     </ol>
     <br>
-    <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
-        <a th:href="@{/movie-persons/{movieId}/(movieId=${movie.id()})}">
-            <button th:text="#{add.participant.button}" type="button">Add Participant</button>
-        </a>
-        <a th:href="@{/movies/{movieId}/pre-update(movieId=${movie.id()})}">
-            <button th:text="#{movie.update}" type="button">Update movie</button>
-        </a>
+    <!--    <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">-->
+    <a th:href="@{/movie-person/add/{movieId}(movieId=${movie.id()})}"
+       th:if="${showAddParticipant == null}">
+        <button th:text="#{add.participant.button}" type="button">Add Participant</button>
+    </a>
+    <div th:if="${showAddParticipant}"
+         th:insert="~{movieperson/add-movie-person :: add_movie_person}">
     </div>
-    <form method="post" th:action="@{/movies/{movieId}/delete(movieId=${movie.id()})}"
-          th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+    <a th:href="@{/movies/{movieId}/pre-update(movieId=${movie.id()})}">
+        <button th:text="#{movie.update}" type="button">Update movie</button>
+    </a>
+    <form method="post" th:action="@{/movies/{movieId}/delete(movieId=${movie.id()})}">
         <button type="submit">
             <span th:text="#{delete}">Delete</span>
         </button>
     </form>
-    <div>
-        <a th:href="@{/reviews/{movieId}(movieId=${movie.id()})}">
-            <button th:text="#{movie.add.review}" type="button">Add Review</button>
-        </a>
-    </div>
+    <!--    </div>-->
+</div>
 
-    <div th:if="${!reviews.isEmpty()}">
-        <table style="width: 100%;margin-left:20px">
-            <caption><b>
-                <span th:text="#{movie.reviews}">Reviews</span>
-            </b></caption>
-            <colgroup>
-                <col style="width: 20px;">
-                <col style="width: 50px;">
-                <col style="width: 200px;">
-            </colgroup>
-            <thead>
-            <tr style="text-align: left">
-                <th>
-                    <span th:text="#{review.rate}">Rate</span>
-                </th>
-                <th>
-                    <span th:text="#{review.user}">User</span>
-                </th>
-                <th>
-                    <span th:text="#{review.text}">Review</span>
-                </th>
+<div>
+    <a th:href="@{/reviews/{movieId}(movieId=${movie.id()})}">
+        <button th:text="#{movie.add.review}" type="button">Add Review</button>
+    </a>
+</div>
+
+<div th:if="${!reviews.isEmpty()}">
+    <table style="width: 100%;margin-left:20px">
+        <caption><b>
+            <span th:text="#{movie.reviews}">Reviews</span>
+        </b></caption>
+        <colgroup>
+            <col style="width: 20px;">
+            <col style="width: 50px;">
+            <col style="width: 200px;">
+        </colgroup>
+        <thead>
+        <tr style="text-align: left">
+            <th>
+                <span th:text="#{review.rate}">Rate</span>
+            </th>
+            <th>
+                <span th:text="#{review.user}">User</span>
+            </th>
+            <th>
+                <span th:text="#{review.text}">Review</span>
+            </th>
+        </tr>
+        </thead>
+
+        <div th:each="review : ${reviews}">
+            <tbody>
+            <tr>
+                <td th:text="${review.rate()}">Rate</td>
+                <td>
+                    <a th:href="@{/users/{userId}(userId=${review.user().id()})}"
+                       th:text="${review.user().username()}">User</a>
+                </td>
+                <td th:text="${review.reviewText()}">Review text</td>
             </tr>
-            </thead>
-
-            <div th:each="review : ${reviews}">
-                <tbody>
-                <tr>
-                    <td th:text="${review.rate()}">Rate</td>
-                    <td>
-                        <a th:href="@{/users/{userId}(userId=${review.user().id()})}"
-                           th:text="${review.user().username()}">User</a>
-                    </td>
-                    <td th:text="${review.reviewText()}">Review text</td>
-                </tr>
-                </tbody>
-            </div>
-        </table>
-    </div>
+            </tbody>
+        </div>
+    </table>
+</div>
 </div>
 </body>
 </html>
