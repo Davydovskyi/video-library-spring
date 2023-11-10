@@ -53,5 +53,14 @@
 <div th:if="${errors}">
     <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
 </div>
+<div>
+    <a th:href="@{/reviews/{userId}(userId=${user.id()})}"
+       th:if="${showReviews == null}">
+        <button th:text="#{user.show.reviews}" type="button">Show Reviews</button>
+    </a>
+    <div th:if="${showReviews}"
+         th:insert="~{review/show-all-reviews :: show_reviews}">
+    </div>
+</div>
 </body>
 </html>

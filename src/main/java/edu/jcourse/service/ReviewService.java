@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static edu.jcourse.database.entity.QReview.review;
@@ -24,6 +25,12 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewReadMapper reviewReadMapper;
     private final ReviewCreateEditMapper reviewCreateEditMapper;
+
+    public List<ReviewReadDto> findAllByUserId(Long userId) {
+        return reviewRepository.findAllByUserId(userId).stream()
+                .map(reviewReadMapper::fullMap)
+                .toList();
+    }
 
     public Optional<ReviewReadDto> findByAllFields(ReviewFilter filter) {
         Predicate predicate = QPredicates.builder()

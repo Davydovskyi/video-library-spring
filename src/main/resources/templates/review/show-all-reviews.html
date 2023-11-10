@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reviews</title>
+</head>
+<body>
+<div th:fragment="show_reviews">
+    <span th:if="${reviews.isEmpty()}" th:text="#{user.reviews.empty}">Empty reviews</span>
+    <div th:if="${!reviews.isEmpty()}">
+        <table style="width: 100%;margin-left:20px">
+            <caption><b>
+                <span th:text="#{movie.reviews}">Reviews</span>
+            </b></caption>
+            <colgroup>
+                <col style="width: 20px;">
+                <col style="width: 50px;">
+                <col style="width: 200px;">
+            </colgroup>
+            <thead>
+            <tr style="text-align: left">
+                <th>
+                    <span th:text="#{review.rate}">Rate</span>
+                </th>
+                <th>
+                    <span th:text="#{movie}">Movie</span>
+                </th>
+                <th>
+                    <span th:text="#{review.text}">Review</span>
+                </th>
+            </tr>
+            </thead>
+
+            <div th:each="review : ${reviews}">
+                <tbody>
+                <tr>
+                    <td th:text="${review.rate()}">Rate</td>
+                    <td>
+                        <a th:href="@{/movies/{movieId}(movieId=${review.movie().id()})}"
+                           th:text="|${review.movie().title()}(${review.movie().releaseYear()})|">Movie</a>
+                    </td>
+                    <td th:text="${review.reviewText()}">Review text</td>
+                </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
+</div>
+</body>
+</html>

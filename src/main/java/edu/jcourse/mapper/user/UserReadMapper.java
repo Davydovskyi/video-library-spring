@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserReadMapper implements Mapper<User, UserReadDto> {
 
-//    private final ReviewReadMapper reviewReadMapper;
-
     @Override
     public UserReadDto map(User from) {
         return UserReadDto.builder()
