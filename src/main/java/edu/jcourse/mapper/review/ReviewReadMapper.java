@@ -21,6 +21,15 @@ public class ReviewReadMapper implements Mapper<Review, ReviewReadDto> {
 
     @Override
     public ReviewReadDto map(Review from) {
+        return ReviewReadDto.builder()
+                .id(from.getId())
+                .reviewText(from.getReviewText())
+                .rate(from.getRate())
+                .build();
+    }
+
+    @Override
+    public ReviewReadDto fullMap(Review from) {
         UserReadDto user = Optional.ofNullable(from.getUser())
                 .map(userReadMapper::map)
                 .orElse(null);

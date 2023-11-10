@@ -12,15 +12,17 @@
             <select id="person" name="personId" required>
                 <option disabled hidden selected></option>
                 <option th:each="person : ${persons}"
+                        th:selected="${moviePerson.personId() == person.id()}"
                         th:text="|${person.name()}(${person.birthDate().getYear()})|"
                         th:value="${person.id()}">
                 </option>
             </select>
         </label>
         <label for="movie_role">
-            <select id="movie_role" name="role" required>
+            <select id="movie_role" name="role">
                 <option disabled hidden selected></option>
                 <option th:each="role : ${movieRoles}"
+                        th:selected="${moviePerson.role() == role}"
                         th:text="#{${role.getCode()}}"
                         th:value="${role}">
                 </option>

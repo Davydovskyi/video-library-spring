@@ -1,7 +1,6 @@
 package edu.jcourse.service;
 
 import com.querydsl.core.types.Predicate;
-import edu.jcourse.database.entity.Movie;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.MovieRepository;
 import edu.jcourse.dto.movie.MovieCreateEditDto;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.Optional;
 
 import static edu.jcourse.database.entity.QMovie.movie;
@@ -70,8 +68,9 @@ public class MovieService {
                 .add(filter.country(), movie.country::equalsIgnoreCase)
                 .add(filter.genre(), movie.genre::eq)
                 .buildAnd();
-        Iterator<Movie> iterator = movieRepository.findAll(predicate).iterator();
-        return iterator.hasNext() ? Optional.of(movieReadMapper.map(iterator.next())) : Optional.empty();
+
+        return movieRepository.findOne(predicate)
+                .map(movieReadMapper::map);
     }
 
     @Transactional

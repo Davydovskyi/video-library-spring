@@ -3,6 +3,7 @@ package edu.jcourse.service;
 import com.querydsl.core.types.Predicate;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.UserRepository;
+import edu.jcourse.dto.user.AdaptedUserDetails;
 import edu.jcourse.dto.user.UserCreateEditDto;
 import edu.jcourse.dto.user.UserFilter;
 import edu.jcourse.dto.user.UserReadDto;
@@ -90,7 +91,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .map(user -> new org.springframework.security.core.userdetails.User(
+                .map(user -> new AdaptedUserDetails(
+                        user.getId(),
                         user.getEmail(),
                         user.getPassword(),
                         Collections.singleton(user.getRole())

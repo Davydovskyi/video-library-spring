@@ -1,12 +1,12 @@
 package edu.jcourse.http.controller;
 
-import edu.jcourse.database.entity.PersonRole;
-import edu.jcourse.dto.movieperson.MoviePersonCreateEditDto;
-import edu.jcourse.service.MoviePersonService;
-import edu.jcourse.service.PersonService;
+import edu.jcourse.dto.review.ReviewCreateEditDto;
+import edu.jcourse.dto.user.AdaptedUserDetails;
+import edu.jcourse.service.ReviewService;
 import edu.jcourse.validation.group.CreateAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,40 +15,37 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/reviews")
 @RequiredArgsConstructor
-@RequestMapping("/movie-person")
-public class MoviePersonController {
+public class ReviewController {
 
-    private final PersonService personService;
-    private final MoviePersonService moviePersonService;
+    private final ReviewService reviewService;
 
     @GetMapping("/add/{movieId}")
     public String add(@PathVariable Integer movieId,
                       RedirectAttributes redirectAttributes,
-                      @ModelAttribute("moviePerson") MoviePersonCreateEditDto moviePerson,
+                      @AuthenticationPrincipal AdaptedUserDetails userDetails,
+                      @ModelAttribute("review") ReviewCreateEditDto review,
                       Model model) {
         redirectAttributes.addFlashAttribute("errors", model.getAttribute("errors"));
-        redirectAttributes.addFlashAttribute("showAddParticipant", true);
-        redirectAttributes.addFlashAttribute("persons", personService.findAll());
-        redirectAttributes.addFlashAttribute("movieRoles", PersonRole.values());
-        redirectAttributes.addFlashAttribute("moviePerson", moviePerson);
-
+        redirectAttributes.addFlashAttribute("showAddReview", true);
+        redirectAttributes.addFlashAttribute("user", userDetails);
+        redirectAttributes.addFlashAttribute("review", review);
         return "redirect:/movies/" + movieId;
     }
 
     @PostMapping
-    public String create(@ModelAttribute @Validated({Default.class, CreateAction.class}) MoviePersonCreateEditDto moviePerson,
+    public String create(@ModelAttribute @Validated({Default.class, CreateAction.class}) ReviewCreateEditDto review,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
 
-        Integer movieId = moviePerson.movieId();
+        Integer movieId = review.movieId();
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            redirectAttributes.addFlashAttribute("moviePerson", moviePerson);
-            return "redirect:/movie-person/add/" + movieId;
+            redirectAttributes.addFlashAttribute("review", review);
+            return "redirect:/reviews/add/" + movieId;
         }
-
-        moviePersonService.create(moviePerson);
+        reviewService.create(review);
         return "redirect:/movies/" + movieId;
     }
 }

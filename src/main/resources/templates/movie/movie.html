@@ -43,9 +43,13 @@
 </div>
 
 <div>
-    <a th:href="@{/reviews/{movieId}(movieId=${movie.id()})}">
+    <a th:href="@{/reviews/add/{movieId}(movieId=${movie.id()})}"
+       th:if="${showAddReview == null}">
         <button th:text="#{movie.add.review}" type="button">Add Review</button>
     </a>
+    <div th:if="${showAddReview}"
+         th:insert="~{review/add-review :: add_review}">
+    </div>
 </div>
 
 <div th:if="${!reviews.isEmpty()}">
@@ -85,7 +89,6 @@
             </tbody>
         </div>
     </table>
-</div>
 </div>
 </body>
 </html>

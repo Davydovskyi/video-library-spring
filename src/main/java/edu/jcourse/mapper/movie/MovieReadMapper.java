@@ -42,7 +42,7 @@ public class MovieReadMapper implements Mapper<Movie, MovieReadDto> {
                 .toList();
 
         List<ReviewReadDto> reviews = from.getReviews().stream()
-                .map(reviewReadMapper::map)
+                .map(reviewReadMapper::fullMap)
                 .toList();
 
         return MovieReadDto.builder()
