@@ -39,6 +39,7 @@ public class MoviePersonReadMapper implements Mapper<MoviePerson, MoviePersonRea
     public MoviePersonReadDto map(MoviePerson from) {
         return MoviePersonReadDto.builder()
                 .id(from.getId())
+                .role(from.getPersonRole())
                 .build();
     }
 }

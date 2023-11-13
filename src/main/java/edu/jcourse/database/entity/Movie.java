@@ -2,10 +2,12 @@ package edu.jcourse.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@FieldNameConstants
 @Data
 @AllArgsConstructor
 @ToString(exclude = {"reviews", "moviePersons"})

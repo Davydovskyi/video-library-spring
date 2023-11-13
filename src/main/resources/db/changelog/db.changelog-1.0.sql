@@ -41,8 +41,7 @@ CREATE TABLE movie
 );
 
 --changeset Davydovskyi:2.3
-CREATE INDEX movie_title_idx ON movie (movie_title);
-CREATE INDEX movie_release_year_idx ON movie (release_year);
+CREATE INDEX movie_title_idx ON movie (movie_title, release_year);
 
 --changeset Davydovskyi:2.4
 CREATE TABLE movie_person

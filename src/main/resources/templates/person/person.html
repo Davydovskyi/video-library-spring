@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+</head>
+<body>
+<!--<div th:insert="~{fragment :: header}"></div>-->
+<form method="post" th:action="@{/persons}">
+    <label for="name">
+        <span th:text="#{person.name}">Name</span>:
+        <input id="name" name="name" required th:value="${person.name()}" type="text">
+    </label><br>
+    <label for="birthDate">
+        <span th:text="#{person.birthDate}">BirthDate</span>:
+        <input id="birthDate" min="1800-01-01" name="birthDate" required
+               th:value="${person.birthDate()}" type="date">
+    </label><br>
+    <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+        <button type="submit">
+            <span th:text="#{update}">Update</span>
+        </button>
+    </div>
+</form>
+<form method="post" th:action="@{/persons/{personId}/delete(personId=${person.id()})}"
+      th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+    <button type="submit">
+        <span th:text="#{delete}">Delete</span>
+    </button>
+</form>
+<div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}" th:text="${error.defaultMessage}">Error message</p>
+</div>
+<div>
+    <ol>
+        <div th:each="movie : ${movies}" varStatus="loop">
+            <li value="${loop.index + 1}">
+                <a th:href="@{'/movies/' + ${movie.id()}}"
+                   th:text="|${movie.id()}. ${movie.title()}(${movie.genre().getCode()}, ${movie.releaseYear()}, ${movie.country()})|">Movie</a>
+            </li>
+        </div>
+    </ol>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<!--<div th:insert="~{fragment :: header}"></div>-->
+<form action="/persons">
+    <label for="name">
+        <input id="name" name="name" th:placeholder="#{person.name}" th:value="${filter.name()}" type="text">
+    </label>
+    <label for="birthYear">
+        <input id="birthYear" min="1800" name="birthYear"
+               th:placeholder="#{person.birthYear}" th:value="${filter.birthYear()}" type="number">
+    </label>
+    <div>
+        <label for="page">
+            <span th:text="#{page}">Page</span>:
+            <input id="page" name="page" th:value="${persons.metaData().page()}" type="number">
+        </label>
+        <label for="size">
+            <span th:text="#{size}">Size</span>:
+            <input id="size" name="size" th:value="${persons.metaData().size()}" type="number">
+        </label>
+        <label for="sortBy">
+            <span th:text="#{sortBy}">Sort By</span>:
+            <select id="sortBy" name="sortBy">
+                <option th:each="sortBy : ${sorts}"
+                        th:selected="${sortBy == filter.sortBy()}"
+                        th:text="${sortBy.getName()}"
+                        th:value="${sortBy}">SortBy
+                </option>
+            </select>
+        </label>
+    </div>
+    <button type="submit">
+        <span th:text="#{search}">Search</span>
+    </button>
+</form>
+<div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+    <button onclick="location.href='/person/add'" type="button">
+        <span th:text="#{movie.add}">Add Person</span>
+    </button>
+</div>
+<div>
+    <ol>
+        <div th:each="person : ${persons.content()}" varStatus="loop">
+            <li value="${loop.index + 1}">
+                <a th:href="@{'/persons/' + ${person.id()}}"
+                   th:text="|${person.name()}(${person.birthDate().getYear()})|">Person</a>
+            </li>
+        </div>
+    </ol>
+</div>
+</body>
+</html>

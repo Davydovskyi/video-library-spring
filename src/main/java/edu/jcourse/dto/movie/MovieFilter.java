@@ -1,6 +1,7 @@
 package edu.jcourse.dto.movie;
 
 import edu.jcourse.database.entity.Genre;
+import edu.jcourse.database.entity.Movie.Fields;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,10 +13,10 @@ public record MovieFilter(String title,
                           Sort sortBy) {
     @Getter
     public enum Sort {
-        TITLE("title"),
-        GENRE("genre"),
-        RELEASE_YEAR("releaseYear"),
-        COUNTRY("country");
+        TITLE(Fields.title),
+        GENRE(Fields.genre),
+        RELEASE_YEAR(Fields.releaseYear),
+        COUNTRY(Fields.country);
 
         private final String name;
 
