@@ -39,8 +39,8 @@
     </button>
 </form>
 <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
-    <button onclick="location.href='/person/add'" type="button">
-        <span th:text="#{movie.add}">Add Person</span>
+    <button onclick="location.href='/persons/add'" type="button">
+        <span th:text="#{person.add}">Add Person</span>
     </button>
 </div>
 <div>

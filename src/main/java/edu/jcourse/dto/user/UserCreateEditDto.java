@@ -18,7 +18,7 @@ import static edu.jcourse.util.RegexUtil.EMAIL_REGEX;
 public record UserCreateEditDto(
         @NotEmpty(message = "{registration.error.email.empty}")
         @Email(message = "{registration.error.email.format}", regexp = EMAIL_REGEX)
-        @EmailInfo(groups = {CreateAction.class})
+        @EmailInfo(groups = {CreateAction.class, UpdateAction.class})
         String email,
 
         @NotBlank(groups = {CreateAction.class}, message = "{registration.error.password.empty}")

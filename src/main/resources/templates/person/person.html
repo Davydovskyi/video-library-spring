@@ -6,7 +6,7 @@
 </head>
 <body>
 <!--<div th:insert="~{fragment :: header}"></div>-->
-<form method="post" th:action="@{/persons}">
+<form method="post" th:action="@{/persons/{personId}/update(personId=${person.id()})}">
     <label for="name">
         <span th:text="#{person.name}">Name</span>:
         <input id="name" name="name" required th:value="${person.name()}" type="text">

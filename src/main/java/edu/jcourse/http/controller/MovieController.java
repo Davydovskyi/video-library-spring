@@ -7,6 +7,7 @@ import edu.jcourse.dto.movie.MovieFilter;
 import edu.jcourse.dto.movie.MovieReadDto;
 import edu.jcourse.service.MovieService;
 import edu.jcourse.validation.group.CreateAction;
+import edu.jcourse.validation.group.UpdateAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -85,7 +86,7 @@ public class MovieController {
 
     @PostMapping("/{id}/update")
     public String update(@PathVariable Integer id,
-                         @ModelAttribute @Validated MovieCreateEditDto movie,
+                         @ModelAttribute @Validated({Default.class, UpdateAction.class}) MovieCreateEditDto movie,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {

@@ -4,9 +4,12 @@ import edu.jcourse.database.entity.Person.Fields;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Builder
 public record PersonFilter(String name,
                            Short birthYear,
+                           LocalDate birthDate,
                            Sort sortBy) {
 
     @Getter

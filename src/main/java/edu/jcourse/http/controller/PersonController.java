@@ -3,19 +3,24 @@ package edu.jcourse.http.controller;
 import edu.jcourse.dto.PageResponse;
 import edu.jcourse.dto.movie.MovieReadDto;
 import edu.jcourse.dto.movieperson.MoviePersonReadDto;
+import edu.jcourse.dto.person.PersonCreateEditDto;
 import edu.jcourse.dto.person.PersonFilter;
 import edu.jcourse.dto.person.PersonReadDto;
 import edu.jcourse.service.PersonService;
+import edu.jcourse.validation.group.CreateAction;
+import edu.jcourse.validation.group.UpdateAction;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -45,6 +50,51 @@ public class PersonController {
                     return "person/person";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/add")
+    public String add(Model model,
+                      @ModelAttribute("person") PersonCreateEditDto person) {
+        model.addAttribute("person", person);
+        return "person/add-person";
+    }
+
+    @PostMapping
+    public String create(@ModelAttribute @Validated({CreateAction.class, Default.class}) PersonCreateEditDto person,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("person", person);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/persons/add";
+        }
+
+        personService.create(person);
+        return "redirect:/persons";
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Integer id,
+                         @ModelAttribute @Validated({UpdateAction.class, Default.class}) PersonCreateEditDto person,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("person", person);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/persons/{id}";
+        }
+
+        return personService.update(id, person)
+                .map(it -> "redirect:/persons/{id}")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        if (!personService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/persons";
     }
 
     private List<MovieReadDto> getMovies(PersonReadDto person) {
