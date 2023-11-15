@@ -117,10 +117,10 @@ VALUES (1, 10, 'COMPOSER'),
 
 --changeset Davydovskyi:4.0
 INSERT INTO users (user_name, user_birth_date, user_image, user_email, user_password, role, gender)
-VALUES ('user1', '2000-01-01', 'userImage/user1.PNG', 'user1@gmail.com', '{noop}123', 'USER', 'MALE'),
-       ('user2', '1999-01-01', 'userImage/user2.PNG', 'user2@gmail.com', '{noop}112', 'USER', 'FEMALE'),
-       ('user3', '1995-01-01', 'userImage/user3.PNG', 'user3@gmail.com', '{noop}987', 'USER', 'MALE'),
-       ('admin', '1990-01-01', 'userImage/admin.PNG', 'admin@gmail.com', '{noop}998', 'ADMIN', 'MALE');
+VALUES ('user1', '2000-01-01', 'user1.PNG', 'user1@gmail.com', '{noop}123', 'USER', 'MALE'),
+       ('user2', '1999-01-01', 'user2.PNG', 'user2@gmail.com', '{noop}112', 'USER', 'FEMALE'),
+       ('user3', '1995-01-01', 'user3.PNG', 'user3@gmail.com', '{noop}987', 'USER', 'MALE'),
+       ('admin', '1990-01-01', 'admin.PNG', 'admin@gmail.com', '{noop}998', 'ADMIN', 'MALE');
 
 --changeset Davydovskyi:5.0
 INSERT INTO review (movie_id, user_id, review_text, rate)

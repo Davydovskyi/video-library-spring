@@ -21,13 +21,15 @@
         <span th:text="#{username}">UserName</span>:
         <input id="username" name="username" required th:value="*{username()}" type="text">
     </label><br>
-    <!--    <div th:if="${user.image()}">-->
-    <!--        <img th:alt="image" th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id()})}">-->
-    <!--    </div>-->
-    <label for="image">
-        <span th:text="#{registration.avatar}">Avatar</span>:
-        <input id="image" name="image" type="file">
-    </label><br>
+    <div th:if="${user.image()}">
+        <img th:alt="image" th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id()})}">
+    </div>
+    <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
+        <label for="image">
+            <span th:text="#{registration.avatar}">Avatar</span>:
+            <input id="image" name="image" type="file">
+        </label><br>
+    </div>
     <div th:each="role : ${roles}">
         <input name="role" required
                th:checked="${role == user.role()}" th:id="${role}" th:value="${role}" type="radio">

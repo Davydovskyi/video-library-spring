@@ -1,3 +1,4 @@
+app.image.bucket: C:/DevTools/temp/userImage
 spring:
   datasource:
     username: postgres
