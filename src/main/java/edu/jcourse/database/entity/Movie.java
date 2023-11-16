@@ -11,12 +11,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @ToString(exclude = {"reviews", "moviePersons"})
-@EqualsAndHashCode(exclude = {"reviews", "moviePersons"})
+@EqualsAndHashCode(exclude = {"reviews", "moviePersons"}, callSuper = false)
 @NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "movie")
-public class Movie implements BaseEntity<Integer> {
+public class Movie extends AuditingEntity<Integer> {
 
     @Id
     @Column(name = "movie_id")
