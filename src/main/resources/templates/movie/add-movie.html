@@ -5,7 +5,7 @@
     <title>Add Movie</title>
 </head>
 <body>
-<!--<div th:insert="~{fragment :: header}"></div>-->
+<div th:insert="~{fragment :: header}"></div>
 <form method="post" th:action="@{/movies}" th:object="${movie}">
     <div th:insert="~{fragment :: add_update_form}"></div>
     <button type="submit">

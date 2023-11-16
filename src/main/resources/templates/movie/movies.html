@@ -5,7 +5,7 @@
     <title>Movies</title>
 </head>
 <body>
-<!--<div th:insert="~{fragment :: header}"></div>-->
+<div th:insert="~{fragment :: header}"></div>
 <form action="/movies">
     <label for="title">
         <input id="title" name="title" th:placeholder="#{movie.title}" th:value="${filter.title()}" type="text">

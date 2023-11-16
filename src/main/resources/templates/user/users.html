@@ -5,7 +5,7 @@
     <title>Users</title>
 </head>
 <body>
-<!--<div th:insert="~{fragment :: header}"></div>-->
+<div th:insert="~{fragment :: header}"></div>
 <form action="/users">
     <label for="email">
         <input id="email" name="email" th:placeholder="#{email}" th:value="${filter.email()}" type="text">
@@ -38,7 +38,6 @@
         <span th:text="#{search}">Search</span>
     </button>
 </form>
-
 <div th:each="user : ${users.content()}">
     <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.username()}(${user.email()})|">User</a>
 </div>

@@ -5,7 +5,7 @@
     <title>Movie</title>
 </head>
 <body>
-<!--<div th:insert="~{fragment :: header}"></div>-->
+<div th:insert="~{fragment :: header}"></div>
 <h1 th:text="${movie.title()}">Title</h1>
 <div>
     <b th:text="#{movie.genre}">Genre</b>: <span th:text="#{${movie.genre().getCode()}}"/><br>
