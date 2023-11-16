@@ -3,6 +3,9 @@ package edu.jcourse.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "movie")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Movie extends AuditingEntity<Integer> {
 
     @Id
@@ -39,10 +43,12 @@ public class Movie extends AuditingEntity<Integer> {
     @Column(name = "movie_description", nullable = false)
     private String description;
 
+    @NotAudited
     @Builder.Default
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<MoviePerson> moviePersons = new ArrayList<>();
 
+    @NotAudited
     @Builder.Default
     @OneToMany(mappedBy = "movie", cascade = CascadeType.REFRESH)
     private List<Review> reviews = new ArrayList<>();
