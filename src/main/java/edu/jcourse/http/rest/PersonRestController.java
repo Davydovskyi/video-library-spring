@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,7 +26,7 @@ public class PersonRestController {
     private final PersonService personService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PageResponse<PersonReadDto> findAll(Model model, PersonFilter filter, Pageable pageable) {
+    public PageResponse<PersonReadDto> findAll(PersonFilter filter, Pageable pageable) {
         Page<PersonReadDto> persons = personService.findAll(filter, pageable);
         return PageResponse.of(persons);
     }
@@ -44,7 +43,7 @@ public class PersonRestController {
         return personService.create(person);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public PersonReadDto update(@PathVariable Integer id,
                                 @Validated({UpdateAction.class, Default.class}) @RequestBody PersonCreateEditDto person) {
         return personService.update(id, person)

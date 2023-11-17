@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 
 @Constraint(validatedBy = MultipartFileValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Documented
 public @interface MultipartFileInfo {
     String message() default "{registration.error.image.invalid}";

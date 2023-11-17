@@ -23,6 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'org.springframework.data:spring-data-envers'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
 
     implementation 'org.postgresql:postgresql'
     implementation 'org.liquibase:liquibase-core'

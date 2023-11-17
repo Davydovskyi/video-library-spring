@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -14,10 +15,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(urlConfig -> urlConfig
                         .requestMatchers(
                                 antMatcher("/login"), antMatcher("/registration"),
-                                antMatcher(HttpMethod.POST, "/users")).permitAll()
+                                antMatcher("/v3/api-docs/**"), antMatcher("/swagger-ui/**"),
+                                antMatcher(HttpMethod.POST, "/users"),
+                                antMatcher(HttpMethod.POST, "/api/v1/users")).permitAll()
                         .anyRequest().permitAll())
                 .formLogin(login -> login.loginPage("/login")
                         .defaultSuccessUrl("/movies"))

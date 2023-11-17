@@ -14,7 +14,7 @@ public class MultipartFileValidator implements ConstraintValidator<MultipartFile
 
     @Override
     public boolean isValid(MultipartFile value, ConstraintValidatorContext context) {
-        if (!value.isEmpty()) {
+        if (Objects.nonNull(value) && !value.isEmpty()) {
             return value.getSize() <= IMAGE_SIZE
                     && Objects.requireNonNull(value.getOriginalFilename()).matches(RegexUtil.IMAGE_FORMAT_REGEX);
         }

@@ -42,7 +42,7 @@ public class MovieRestController {
         return movieService.create(movie);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public MovieReadDto update(@PathVariable Integer id,
                                @Validated({Default.class, CreateAction.class}) @RequestBody MovieCreateEditDto movie) {
         return movieService.update(id, movie)

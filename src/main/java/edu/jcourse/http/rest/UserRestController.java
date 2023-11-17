@@ -44,7 +44,7 @@ public class UserRestController {
         return userService.create(user);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserReadDto update(@PathVariable Long id,
                               @Validated({Default.class, UpdateAction.class}) @RequestBody UserCreateEditDto user) {
         return userService.update(id, user)
