@@ -16,7 +16,7 @@
     <ol>
         <div th:each="movie_person : ${movie.moviePersons()}" varStatus="loop">
             <li value="${loop.index + 1}">
-                <a th:href="@{'/person/' + ${movie_person.person().id()}}"
+                <a th:href="@{'/persons/' + ${movie_person.person().id()}}"
                    th:text="|${movie_person.person().name()}(${movie_person.person().birthDate().getYear()}) -
                 #{${movie_person.role().getCode()}}|">Person</a>
             </li>

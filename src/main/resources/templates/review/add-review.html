@@ -10,6 +10,7 @@
         <input id="movieId" name="movieId" required th:value="${movie.id()}" type="hidden">
         <input id="userId" name="userId" required th:value="${user.id} " type="hidden">
         <label for="rate">
+            <span th:text="#{review.rate}">Rate</span>:
             <select id="rate" name="rate" required>
                 <option disabled hidden selected></option>
                 <option th:each="i : ${#numbers.sequence(1, 10)}"

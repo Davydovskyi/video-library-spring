@@ -16,8 +16,24 @@ spring:
         jdbc:
           fetch_size: 100
           batch_size: 100
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ______Your Client Id________
+            client-secret: ________Your Client Secret________
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope: openid, email, profile
   servlet:
     multipart:
       max-file-size: 5MB
   messages:
     basename: messages
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ______Your Client Id________
+      client-secret: ________Your Client Secret________
+      scopes: openid, email, profile
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html

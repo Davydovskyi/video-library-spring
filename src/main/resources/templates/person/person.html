@@ -36,7 +36,7 @@
         <div th:each="movie : ${movies}" varStatus="loop">
             <li value="${loop.index + 1}">
                 <a th:href="@{'/movies/' + ${movie.id()}}"
-                   th:text="|${movie.id()}. ${movie.title()}(${movie.genre().getCode()}, ${movie.releaseYear()}, ${movie.country()})|">Movie</a>
+                   th:text="|${movie.title()}(${movie.genre().getCode()}, ${movie.releaseYear()}, ${movie.country()})|">Movie</a>
             </li>
         </div>
     </ol>
