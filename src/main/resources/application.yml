@@ -37,3 +37,13 @@ springdoc:
       client-secret: ________Your Client Secret________
       scopes: openid, email, profile
     oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
+logging:
+  level:
+    root: INFO
+  file:
+    name: application.log
+    path: /
+  logback:
+    rollingpolicy:
+      max-history: 3
+      max-file-size: 1MB

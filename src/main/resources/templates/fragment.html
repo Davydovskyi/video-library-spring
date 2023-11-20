@@ -6,12 +6,25 @@
 </head>
 <body>
 <div th:fragment="header">
-    <span th:text="${#authentication.principal.username}">Username:</span>
-    <form method="post" th:action="@{/logout}">
-        <button type="submit">
-            <span th:text="#{logout}">Logout</span>
-        </button>
-    </form>
+    <div>
+        <a th:href="@{/movies}">
+            <button th:text="#{movies}" type="button">Movies</button>
+        </a>
+        <a th:href="@{/persons}">
+            <button th:text="#{persons}" type="button">Persons</button>
+        </a>
+        <a th:href="@{/users}">
+            <button th:text="#{users}" type="button">Users</button>
+        </a>
+    </div>
+    <div style="float: right">
+        <span th:text="${#authentication.principal.username}">Username</span>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit">
+                <span th:text="#{logout}">Logout</span>
+            </button>
+        </form>
+    </div>
     <div th:insert="~{fragment :: locale}"></div>
 </div>
 <div th:fragment="locale">
@@ -24,6 +37,7 @@
             </select>
         </label>
     </form>
+    <br>
 </div>
 
 <div th:fragment="add_update_form">
