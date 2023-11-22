@@ -24,7 +24,7 @@
     </ol>
     <br>
     <div th:if="${#authorization.expr('hasAuthority(''ADMIN'')')}">
-        <a th:href="@{/movie-person/add/{movieId}(movieId=${movie.id()})}"
+        <a th:href="@{/movie-persons/add/{movieId}(movieId=${movie.id()})}"
            th:if="${showAddParticipant == null}">
             <button th:text="#{add.participant.button}" type="button">Add Participant</button>
         </a>

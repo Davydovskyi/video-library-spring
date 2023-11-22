@@ -50,6 +50,6 @@ public class Movie extends AuditingEntity<Integer> {
 
     @NotAudited
     @Builder.Default
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 }

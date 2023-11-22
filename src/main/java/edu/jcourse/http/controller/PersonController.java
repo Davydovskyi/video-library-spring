@@ -24,8 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static edu.jcourse.util.HttpPath.*;
+
 @Controller
-@RequestMapping("/persons")
+@RequestMapping(PERSONS)
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -40,7 +42,7 @@ public class PersonController {
         return "person/persons";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PERSON_BY_ID)
     public String findById(@PathVariable Integer id,
                            Model model) {
         return personService.findById(id)
@@ -52,7 +54,7 @@ public class PersonController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/add")
+    @GetMapping(PERSON_ADD)
     public String add(Model model,
                       @ModelAttribute("person") PersonCreateEditDto person) {
         model.addAttribute("person", person);
@@ -73,7 +75,7 @@ public class PersonController {
         return "redirect:/persons";
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping(PERSON_UPDATE)
     public String update(@PathVariable Integer id,
                          @ModelAttribute @Validated({UpdateAction.class, Default.class}) PersonCreateEditDto person,
                          BindingResult bindingResult,
@@ -89,7 +91,7 @@ public class PersonController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping(PERSON_DELETE)
     public String delete(@PathVariable Integer id) {
         if (!personService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

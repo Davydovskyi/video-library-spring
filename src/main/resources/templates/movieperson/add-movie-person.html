@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:fragment="add_movie_person">
-    <form method="post" th:action="@{/movie-person}">
+    <form method="post" th:action="@{/movie-persons}">
         <input id="movieId" name="movieId" required th:value="${movie.id()}" type="hidden">
         <label for="person">
             <select id="person" name="personId" required>

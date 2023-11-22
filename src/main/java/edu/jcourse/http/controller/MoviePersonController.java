@@ -14,15 +14,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static edu.jcourse.util.HttpPath.MOVIE_PERSONS;
+import static edu.jcourse.util.HttpPath.MOVIE_PERSONS_ADD;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/movie-person")
+@RequestMapping(MOVIE_PERSONS)
 public class MoviePersonController {
 
     private final PersonService personService;
     private final MoviePersonService moviePersonService;
 
-    @GetMapping("/add/{movieId}")
+    @GetMapping(MOVIE_PERSONS_ADD)
     public String add(@PathVariable Integer movieId,
                       RedirectAttributes redirectAttributes,
                       @ModelAttribute("moviePerson") MoviePersonCreateEditDto moviePerson,
@@ -45,7 +48,7 @@ public class MoviePersonController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("moviePerson", moviePerson);
-            return "redirect:/movie-person/add/" + movieId;
+            return "redirect:/movie-persons/add/" + movieId;
         }
 
         moviePersonService.create(moviePerson);

@@ -14,14 +14,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static edu.jcourse.util.HttpPath.*;
+
 @Controller
-@RequestMapping("/reviews")
+@RequestMapping(REVIEWS)
 @RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/{userId}")
+    @GetMapping(REVIEWS_BY_USER_ID)
     public String findAll(@PathVariable Long userId,
                           RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("showReviews", true);
@@ -30,7 +32,7 @@ public class ReviewController {
         return "redirect:/users/{userId}";
     }
 
-    @GetMapping("/add/{movieId}")
+    @GetMapping(REVIEW_ADD)
     public String add(@PathVariable Integer movieId,
                       RedirectAttributes redirectAttributes,
                       @AuthenticationPrincipal AdaptedUserDetails userDetails,

@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import static edu.jcourse.util.HttpPath.REGISTRATION;
+
 @Controller
 public class RegistrationController {
 
-    @GetMapping("/registration")
+    @GetMapping(REGISTRATION)
     public String registration(Model model,
                                @ModelAttribute("user") UserCreateEditDto user) {
         model.addAttribute("user", user);

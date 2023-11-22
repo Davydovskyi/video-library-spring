@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static edu.jcourse.util.HttpPath.*;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/movies")
+@RequestMapping(MOVIES)
 public class MovieController {
 
     private final MovieService movieService;
@@ -38,7 +40,7 @@ public class MovieController {
         return "movie/movies";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(MOVIE_BY_ID)
     public String findById(@PathVariable Integer id,
                            Model model) {
         return movieService.findById(id)
@@ -51,7 +53,7 @@ public class MovieController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/add")
+    @GetMapping(MOVIE_ADD)
     public String add(Model model,
                       @ModelAttribute("movie") MovieCreateEditDto movie) {
         model.addAttribute("movie", movie);
@@ -72,7 +74,7 @@ public class MovieController {
         return "redirect:/movies";
     }
 
-    @GetMapping("/{id}/pre-update")
+    @GetMapping(MOVIE_PRE_UPDATE)
     public String preUpdate(@PathVariable Integer id,
                             Model model) {
         return movieService.findById(id)
@@ -84,7 +86,7 @@ public class MovieController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping(MOVIE_UPDATE)
     public String update(@PathVariable Integer id,
                          @ModelAttribute @Validated({Default.class, UpdateAction.class}) MovieCreateEditDto movie,
                          BindingResult bindingResult,
@@ -100,7 +102,7 @@ public class MovieController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping(MOVIE_DELETE)
     public String delete(@PathVariable Integer id) {
         if (!movieService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

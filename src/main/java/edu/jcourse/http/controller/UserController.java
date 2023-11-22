@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static edu.jcourse.util.HttpPath.*;
+
 @Controller
-@RequestMapping("/users")
+@RequestMapping(USERS)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -38,7 +40,7 @@ public class UserController {
         return "user/users";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(USER_BY_ID)
     public String findById(@PathVariable Long id, Model model) {
         return userService.findById(id)
                 .map(user -> {
@@ -64,7 +66,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping(USER_UPDATE)
     public String update(@PathVariable Long id,
                          @ModelAttribute @Validated({Default.class, UpdateAction.class}) UserCreateEditDto user,
                          BindingResult bindingResult,
@@ -79,7 +81,7 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping(USER_DELETE)
     public String delete(@PathVariable Long id) {
         if (!userService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

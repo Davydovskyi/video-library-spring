@@ -18,8 +18,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static edu.jcourse.util.HttpPath.PERSON_BY_ID;
+import static edu.jcourse.util.HttpPath.REST_PERSONS;
+
 @RestController
-@RequestMapping("/api/v1/persons")
+@RequestMapping(REST_PERSONS)
 @RequiredArgsConstructor
 public class PersonRestController {
 
@@ -31,7 +34,7 @@ public class PersonRestController {
         return PageResponse.of(persons);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PERSON_BY_ID)
     public PersonReadDto findById(@PathVariable Integer id) {
         return personService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -43,14 +46,14 @@ public class PersonRestController {
         return personService.create(person);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = PERSON_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public PersonReadDto update(@PathVariable Integer id,
                                 @Validated({UpdateAction.class, Default.class}) @RequestBody PersonCreateEditDto person) {
         return personService.update(id, person)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(PERSON_BY_ID)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         return personService.delete(id) ?
                 ResponseEntity.noContent().build() :

@@ -17,8 +17,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static edu.jcourse.util.HttpPath.MOVIE_BY_ID;
+import static edu.jcourse.util.HttpPath.REST_MOVIES;
+
 @RestController
-@RequestMapping("/api/v1/movies")
+@RequestMapping(REST_MOVIES)
 @RequiredArgsConstructor
 public class MovieRestController {
 
@@ -30,7 +33,7 @@ public class MovieRestController {
         return PageResponse.of(movies);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(MOVIE_BY_ID)
     public MovieReadDto findById(@PathVariable Integer id) {
         return movieService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -42,14 +45,14 @@ public class MovieRestController {
         return movieService.create(movie);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = MOVIE_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public MovieReadDto update(@PathVariable Integer id,
                                @Validated({Default.class, CreateAction.class}) @RequestBody MovieCreateEditDto movie) {
         return movieService.update(id, movie)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(MOVIE_BY_ID)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         return movieService.delete(id) ?
                 ResponseEntity.noContent().build() :

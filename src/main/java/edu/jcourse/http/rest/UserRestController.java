@@ -19,8 +19,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static edu.jcourse.util.HttpPath.*;
+
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(REST_USERS)
 @RequiredArgsConstructor
 public class UserRestController {
 
@@ -32,7 +34,7 @@ public class UserRestController {
         return PageResponse.of(users);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(USER_BY_ID)
     public UserReadDto findById(@PathVariable Long id) {
         return userService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -44,21 +46,21 @@ public class UserRestController {
         return userService.create(user);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = USER_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserReadDto update(@PathVariable Long id,
                               @Validated({Default.class, UpdateAction.class}) @RequestBody UserCreateEditDto user) {
         return userService.update(id, user)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(USER_BY_ID)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return userService.delete(id) ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{id}/avatar")
+    @GetMapping(USER_AVATAR)
     public ResponseEntity<byte[]> getAvatar(@PathVariable Long id) {
         return userService.findImage(id)
                 .map(image -> ResponseEntity.ok()

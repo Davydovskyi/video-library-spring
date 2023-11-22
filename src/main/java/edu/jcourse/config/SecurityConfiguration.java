@@ -26,6 +26,7 @@ import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.Set;
 
+import static edu.jcourse.util.HttpPath.*;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
@@ -42,26 +43,26 @@ public class SecurityConfiguration {
                 .anonymous(AnonymousConfigurer::disable)
                 .authorizeHttpRequests(urlConfig -> urlConfig
                         .requestMatchers(
-                                antMatcher("/login"), antMatcher("/registration"),
+                                antMatcher(LOGIN), antMatcher(REGISTRATION),
                                 antMatcher("/v3/api-docs/**"), antMatcher("/swagger-ui/**"),
-                                antMatcher(HttpMethod.POST, "/users")).permitAll()
+                                antMatcher(HttpMethod.POST, USERS)).permitAll()
                         .requestMatchers(
                                 antMatcher("/users/{\\d+}/delete"), antMatcher("/users/{\\d+}/update"),
-                                antMatcher("/movie-persons/add/**"), antMatcher(HttpMethod.POST, "/users"),
-                                antMatcher("/movies/add"), antMatcher(HttpMethod.POST, "movies"),
+                                antMatcher("/movie-persons/add"), antMatcher(HttpMethod.POST, USERS),
+                                antMatcher("/movies/add"), antMatcher(HttpMethod.POST, MOVIES),
                                 antMatcher("/movies/{\\d+}/pre-update"), antMatcher("/movies/{\\d+}/delete"),
                                 antMatcher("/movies/{\\d+}/update"), antMatcher("/persons/add"),
-                                antMatcher(HttpMethod.POST, "/persons"),
+                                antMatcher(HttpMethod.POST, PERSONS),
                                 antMatcher("/persons/{\\d+}/delete"), antMatcher("/persons/{\\d+}/update")).hasAuthority(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated())
-                .formLogin(login -> login.loginPage("/login")
-                        .defaultSuccessUrl("/movies"))
-                .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                .formLogin(login -> login.loginPage(LOGIN)
+                        .defaultSuccessUrl(MOVIES))
+                .logout(logout -> logout.logoutUrl(LOGOUT)
+                        .logoutSuccessUrl(LOGIN)
                         .deleteCookies("JSESSIONID"))
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/movies")
+                        .loginPage(LOGIN)
+                        .defaultSuccessUrl(MOVIES)
                         .userInfoEndpoint(userInfo ->
                                 userInfo.oidcUserService(oidcUserService())));
         return http.build();

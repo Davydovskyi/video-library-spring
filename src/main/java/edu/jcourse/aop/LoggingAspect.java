@@ -23,13 +23,13 @@ public class LoggingAspect {
 
     @AfterThrowing(value = "edu.jcourse.aop.CommonPointcuts.isServiceLayer()", throwing = "exception")
     public void logAfterThrowingInService(JoinPoint joinPoint, Exception exception) {
-        log.info(EXCEPTION_MESSAGE,
+        log.error(EXCEPTION_MESSAGE,
                 joinPoint.getSignature().getName(), joinPoint.getTarget().getClass(), exception.getClass(), exception.getMessage());
     }
 
     @AfterThrowing(value = "edu.jcourse.aop.CommonPointcuts.isControllerLayer()", throwing = "exception")
     public void logAfterThrowingInController(JoinPoint joinPoint, Exception exception) {
-        log.info(EXCEPTION_MESSAGE,
+        log.error(EXCEPTION_MESSAGE,
                 joinPoint.getSignature().getName(), joinPoint.getTarget().getClass(), exception.getClass(), exception.getMessage());
     }
 
@@ -42,7 +42,7 @@ public class LoggingAspect {
     @Before(value = "edu.jcourse.aop.CommonPointcuts.isControllerAdvice() && args(*, java.lang.Exception)")
     public void logBeforeControllerAdvice(JoinPoint joinPoint) {
         Exception exception = (Exception) joinPoint.getArgs()[1];
-        log.info(EXCEPTION_MESSAGE,
+        log.debug(EXCEPTION_MESSAGE,
                 joinPoint.getSignature().getName(), joinPoint.getTarget().getClass(), exception.getClass(), exception.getMessage());
     }
 }
