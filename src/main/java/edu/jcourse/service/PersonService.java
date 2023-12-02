@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static edu.jcourse.database.entity.Person.Fields;
 import static edu.jcourse.database.entity.QPerson.person;
 
 @Service
@@ -31,7 +32,7 @@ public class PersonService {
     private final PersonCreateEditMapper personCreateEditMapper;
 
     public List<PersonReadDto> findAll() {
-        Sort sort = Sort.by("name").ascending();
+        Sort sort = Sort.by(Fields.name).ascending();
         return personRepository.findAll(sort).stream()
                 .map(personReadMapper::map)
                 .toList();

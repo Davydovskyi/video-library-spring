@@ -16,7 +16,7 @@ public class MultipartFileValidator implements ConstraintValidator<MultipartFile
     public boolean isValid(MultipartFile value, ConstraintValidatorContext context) {
         if (Objects.nonNull(value) && !value.isEmpty()) {
             return value.getSize() <= IMAGE_SIZE
-                    && Objects.requireNonNull(value.getOriginalFilename()).matches(RegexUtil.IMAGE_FORMAT_REGEX);
+                    && Objects.requireNonNull(value.getOriginalFilename()).toUpperCase().matches(RegexUtil.IMAGE_FORMAT_REGEX);
         }
         return true;
     }
