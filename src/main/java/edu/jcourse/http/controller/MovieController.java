@@ -33,7 +33,9 @@ public class MovieController {
     @GetMapping
     public String findAll(Model model, MovieFilter filter, Pageable pageable) {
         Page<MovieReadDto> movies = movieService.findAll(filter, pageable);
-        model.addAttribute("movies", PageResponse.of(movies));
+        PageResponse<MovieReadDto> response = PageResponse.of(movies);
+        model.addAttribute("movies", response.content());
+        model.addAttribute("metaData", response.metaData());
         model.addAttribute("genres", Genre.values());
         model.addAttribute("filter", filter);
         model.addAttribute("sorts", MovieFilter.Sort.values());

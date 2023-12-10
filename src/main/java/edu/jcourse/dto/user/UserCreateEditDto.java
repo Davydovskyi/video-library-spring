@@ -8,6 +8,7 @@ import edu.jcourse.validation.group.CreateAction;
 import edu.jcourse.validation.group.UpdateAction;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import static edu.jcourse.util.RegexUtil.EMAIL_REGEX;
 
 @Builder
+@FieldNameConstants
 public record UserCreateEditDto(
         @NotEmpty(message = "{registration.error.email.empty}")
         @Email(message = "{registration.error.email.format}", regexp = EMAIL_REGEX)

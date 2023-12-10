@@ -8,9 +8,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.experimental.FieldNameConstants;
 
 @Builder
 @MovieInfo(groups = {CreateAction.class, UpdateAction.class})
+@FieldNameConstants
 public record MovieCreateEditDto(
         @NotEmpty(message = "{movie.error.title.empty}")
         String title,

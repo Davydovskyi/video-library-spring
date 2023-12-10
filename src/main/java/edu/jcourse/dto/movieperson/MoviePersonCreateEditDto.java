@@ -5,9 +5,11 @@ import edu.jcourse.validation.MoviePersonInfo;
 import edu.jcourse.validation.group.CreateAction;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.experimental.FieldNameConstants;
 
 @Builder
 @MoviePersonInfo(groups = {CreateAction.class})
+@FieldNameConstants
 public record MoviePersonCreateEditDto(
         @NotNull(message = "{person.error.personId.empty}")
         Integer personId,

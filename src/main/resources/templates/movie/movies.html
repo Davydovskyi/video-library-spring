@@ -31,11 +31,11 @@
     <div>
         <label for="page">
             <span th:text="#{page}">Page</span>:
-            <input id="page" name="page" th:value="${movies.metaData().page()}" type="number">
+            <input id="page" name="page" th:value="${metaData.page()}" type="number">
         </label>
         <label for="size">
             <span th:text="#{size}">Size</span>:
-            <input id="size" name="size" th:value="${movies.metaData().size()}" type="number">
+            <input id="size" name="size" th:value="${metaData.size()}" type="number">
         </label>
         <label for="sortBy">
             <span th:text="#{sortBy}">Sort By</span>:
@@ -58,7 +58,7 @@
     </button>
 </div>
 
-<div th:each="movie : ${movies.content()}">
+<div th:each="movie : ${movies}">
     <a th:href="@{'/movies/' + ${movie.id()}}"
        th:text="|${movie.id()}. ${movie.title()}(${movie.genre().getCode()}, ${movie.releaseYear()}, ${movie.country()})|">Movie</a>
 </div>

@@ -9,7 +9,6 @@
 <form action="/users">
     <label for="email">
         <input id="email" name="email" th:placeholder="#{email}" th:value="${filter.email()}" type="text">
-        <!--        name should be the same as fields in UserFilter -->
     </label>
     <label for="username">
         <input id="username" name="username" th:placeholder="#{username}" th:value="${filter.username()}" type="text">
@@ -17,11 +16,11 @@
     <div>
         <label for="page">
             <span th:text="#{page}">Page</span>:
-            <input id="page" name="page" th:value="${users.metaData().page()}" type="number">
+            <input id="page" name="page" th:value="${metaData.page()}" type="number">
         </label>
         <label for="size">
             <span th:text="#{size}">Size</span>:
-            <input id="size" name="size" th:value="${users.metaData().size()}" type="number">
+            <input id="size" name="size" th:value="${metaData.size()}" type="number">
         </label>
         <label for="sortBy">
             <span th:text="#{sortBy}">Sort By</span>:
@@ -38,7 +37,7 @@
         <span th:text="#{search}">Search</span>
     </button>
 </form>
-<div th:each="user : ${users.content()}">
+<div th:each="user : ${users}">
     <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.username()}(${user.email()})|">User</a>
 </div>
 </body>

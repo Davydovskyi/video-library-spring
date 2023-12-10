@@ -7,11 +7,13 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Builder;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDate;
 
 @Builder
 @PersonInfo(groups = {CreateAction.class, UpdateAction.class})
+@FieldNameConstants
 public record PersonCreateEditDto(
         @NotEmpty(message = "{person.error.name.empty}")
         String name,

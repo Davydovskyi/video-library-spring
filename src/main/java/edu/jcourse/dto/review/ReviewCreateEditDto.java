@@ -7,9 +7,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.experimental.FieldNameConstants;
 
 @Builder
 @ReviewInfo(groups = {CreateAction.class})
+@FieldNameConstants
 public record ReviewCreateEditDto(
         @NotNull(message = "{review.error.userId.empty}")
         Long userId,

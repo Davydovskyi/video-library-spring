@@ -24,8 +24,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping(REVIEWS_BY_USER_ID)
-    public String findAll(@PathVariable Long userId,
-                          RedirectAttributes redirectAttributes) {
+    public String findAllByUserId(@PathVariable Long userId,
+                                  RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("showReviews", true);
         redirectAttributes.addFlashAttribute("reviews", reviewService.findAllByUserId(userId));
 

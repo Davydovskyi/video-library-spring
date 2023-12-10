@@ -1,12 +1,13 @@
 package edu.jcourse.dto.person;
 
-import edu.jcourse.database.entity.Person.Fields;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDate;
 
 @Builder
+@FieldNameConstants
 public record PersonFilter(String name,
                            Short birthYear,
                            LocalDate birthDate,

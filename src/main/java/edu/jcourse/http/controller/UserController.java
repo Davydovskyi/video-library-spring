@@ -34,7 +34,9 @@ public class UserController {
     @GetMapping
     public String findAll(Model model, UserFilter filter, Pageable pageable) {
         Page<UserReadDto> users = userService.findAll(filter, pageable);
-        model.addAttribute("users", PageResponse.of(users));
+        PageResponse<UserReadDto> response = PageResponse.of(users);
+        model.addAttribute("users", response.content());
+        model.addAttribute("metaData", response.metaData());
         model.addAttribute("filter", filter);
         model.addAttribute("sorts", UserFilter.Sort.values());
         return "user/users";

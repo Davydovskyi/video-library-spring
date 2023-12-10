@@ -48,11 +48,10 @@ public class SecurityConfiguration {
                                 antMatcher(HttpMethod.POST, USERS)).permitAll()
                         .requestMatchers(
                                 antMatcher("/users/{\\d+}/delete"), antMatcher("/users/{\\d+}/update"),
-                                antMatcher("/movie-persons/add"), antMatcher(HttpMethod.POST, USERS),
-                                antMatcher("/movies/add"), antMatcher(HttpMethod.POST, MOVIES),
-                                antMatcher("/movies/{\\d+}/pre-update"), antMatcher("/movies/{\\d+}/delete"),
-                                antMatcher("/movies/{\\d+}/update"), antMatcher("/persons/add"),
-                                antMatcher(HttpMethod.POST, PERSONS),
+                                antMatcher("/movie-persons/add/{\\d+}"), antMatcher("/movies/add"),
+                                antMatcher(HttpMethod.POST, MOVIES), antMatcher("/movies/{\\d+}/pre-update"),
+                                antMatcher("/movies/{\\d+}/delete"), antMatcher("/movies/{\\d+}/update"),
+                                antMatcher("/persons/add"), antMatcher(HttpMethod.POST, PERSONS),
                                 antMatcher("/persons/{\\d+}/delete"), antMatcher("/persons/{\\d+}/update")).hasAuthority(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated())
                 .formLogin(login -> login.loginPage(LOGIN)

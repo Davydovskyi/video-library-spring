@@ -36,7 +36,9 @@ public class PersonController {
     @GetMapping
     public String findAll(Model model, PersonFilter filter, Pageable pageable) {
         Page<PersonReadDto> persons = personService.findAll(filter, pageable);
-        model.addAttribute("persons", PageResponse.of(persons));
+        PageResponse<PersonReadDto> response = PageResponse.of(persons);
+        model.addAttribute("persons", response.content());
+        model.addAttribute("metaData", response.metaData());
         model.addAttribute("filter", filter);
         model.addAttribute("sorts", PersonFilter.Sort.values());
         return "person/persons";

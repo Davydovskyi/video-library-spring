@@ -1,0 +1,15 @@
+app.image.bucket: src/test/resources/image
+spring:
+  datasource:
+    username: test
+    password: test
+  liquibase:
+    change-log: db/changelog/db.changelog-master-test.yaml
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl.auto: validate
+logging:
+  file:
+    name:
+    path:

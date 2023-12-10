@@ -22,6 +22,23 @@ class ReviewCreateEditMapperTest {
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
+    @Test
+    void defaultFullMap() {
+        Review actualResult = mapper.fullMap(buildReviewCreateEditDto());
+
+        assertThat(actualResult).isNull();
+    }
+
+    @Test
+    void defaultMap() {
+        ReviewCreateEditDto createEditDto = buildReviewCreateEditDto();
+        Review expectedResult = buildReview();
+
+        Review actualResult = mapper.map(buildReviewCreateEditDto(), expectedResult);
+
+        assertThat(actualResult).isEqualTo(expectedResult);
+    }
+
     private ReviewCreateEditDto buildReviewCreateEditDto() {
         return ReviewCreateEditDto.builder()
                 .userId(1L)
