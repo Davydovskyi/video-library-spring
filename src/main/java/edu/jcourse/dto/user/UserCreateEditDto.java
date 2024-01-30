@@ -1,5 +1,7 @@
 package edu.jcourse.dto.user;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import edu.jcourse.database.entity.Gender;
 import edu.jcourse.database.entity.Role;
 import edu.jcourse.validation.EmailInfo;
@@ -17,6 +19,7 @@ import static edu.jcourse.util.RegexUtil.EMAIL_REGEX;
 
 @Builder
 @FieldNameConstants
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserCreateEditDto(
         @NotEmpty(message = "{registration.error.email.empty}")
         @Email(message = "{registration.error.email.format}", regexp = EMAIL_REGEX)

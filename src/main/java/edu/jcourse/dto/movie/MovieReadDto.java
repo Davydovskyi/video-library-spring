@@ -1,5 +1,7 @@
 package edu.jcourse.dto.movie;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import edu.jcourse.database.entity.Genre;
 import edu.jcourse.dto.movieperson.MoviePersonReadDto;
 import edu.jcourse.dto.review.ReviewReadDto;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record MovieReadDto(Integer id,
                            String title,
                            Short releaseYear,

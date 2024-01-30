@@ -1,19 +1,20 @@
 package edu.jcourse.dto.user;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldNameConstants;
 
-import static edu.jcourse.database.entity.User.Fields.userName;
-
 @Builder
 @FieldNameConstants
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserFilter(String email,
-                         String username,
+                         String userName,
                          Sort sortBy) {
     @Getter
     public enum Sort {
-        USERNAME(userName),
+        USERNAME(Fields.userName),
         EMAIL(Fields.email);
 
         private final String name;

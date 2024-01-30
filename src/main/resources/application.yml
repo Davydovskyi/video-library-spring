@@ -21,8 +21,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ______Your Client Id________
-            client-secret: ________Your Client Secret________
+            client-id: 133580343976-lrnunjdeudhs964fni39e6a3svd82hpi.apps.googleusercontent.com
+            client-secret: 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
             redirect-uri: http://localhost:8080/login/oauth2/code/google
             scope: openid, email, profile
   servlet:
@@ -33,8 +33,8 @@ spring:
 springdoc:
   swagger-ui:
     oauth:
-      client-id: ______Your Client Id________
-      client-secret: ________Your Client Secret________
+      client-id: 133580343976-lrnunjdeudhs964fni39e6a3svd82hpi.apps.googleusercontent.com
+      client-secret: GOCSPX-KOI5_zkw1EXQ5lYWrcg07CiqKzP
       scopes: openid, email, profile
     oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
 logging:

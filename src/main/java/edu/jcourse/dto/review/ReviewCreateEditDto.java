@@ -1,5 +1,7 @@
 package edu.jcourse.dto.review;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import edu.jcourse.validation.ReviewInfo;
 import edu.jcourse.validation.group.CreateAction;
 import jakarta.validation.constraints.Max;
@@ -12,6 +14,7 @@ import lombok.experimental.FieldNameConstants;
 @Builder
 @ReviewInfo(groups = {CreateAction.class})
 @FieldNameConstants
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record ReviewCreateEditDto(
         @NotNull(message = "{review.error.userId.empty}")
         Long userId,

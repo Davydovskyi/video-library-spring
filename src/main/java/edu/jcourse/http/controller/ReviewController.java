@@ -7,6 +7,7 @@ import edu.jcourse.validation.group.CreateAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,12 +36,18 @@ public class ReviewController {
     @GetMapping(REVIEW_ADD)
     public String add(@PathVariable Integer movieId,
                       RedirectAttributes redirectAttributes,
-                      @AuthenticationPrincipal AdaptedUserDetails userDetails,
+                      @AuthenticationPrincipal Object userDetails,
                       @ModelAttribute("review") ReviewCreateEditDto review,
                       Model model) {
+
+        if (userDetails instanceof AdaptedUserDetails user) {
+            redirectAttributes.addFlashAttribute("userId", user.getId());
+        } else if (userDetails instanceof OidcUser user) {
+            redirectAttributes.addFlashAttribute("userId", user.getUserInfo().getClaims().get("userId"));
+        }
+
         redirectAttributes.addFlashAttribute("errors", model.getAttribute("errors"));
         redirectAttributes.addFlashAttribute("showAddReview", true);
-        redirectAttributes.addFlashAttribute("user", userDetails);
         redirectAttributes.addFlashAttribute("review", review);
         return "redirect:/movies/" + movieId;
     }

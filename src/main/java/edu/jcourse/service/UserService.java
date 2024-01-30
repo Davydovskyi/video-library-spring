@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
     public Page<UserReadDto> findAll(UserFilter filter, Pageable pageable) {
         Predicate predicate = QPredicates.builder()
                 .add(filter.email(), user.email::containsIgnoreCase)
-                .add(filter.username(), user.userName::containsIgnoreCase)
+                .add(filter.userName(), user.userName::containsIgnoreCase)
                 .buildAnd();
 
         UserFilter.Sort sortBy = Optional.ofNullable(filter.sortBy())

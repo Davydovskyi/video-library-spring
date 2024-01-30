@@ -1,5 +1,7 @@
 package edu.jcourse.dto.person;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import edu.jcourse.validation.PersonInfo;
 import edu.jcourse.validation.group.CreateAction;
 import edu.jcourse.validation.group.UpdateAction;
@@ -14,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 @PersonInfo(groups = {CreateAction.class, UpdateAction.class})
 @FieldNameConstants
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record PersonCreateEditDto(
         @NotEmpty(message = "{person.error.name.empty}")
         String name,

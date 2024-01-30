@@ -1,5 +1,7 @@
 package edu.jcourse.dto.movie;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import edu.jcourse.database.entity.Genre;
 import edu.jcourse.validation.MovieInfo;
 import edu.jcourse.validation.group.CreateAction;
@@ -13,6 +15,7 @@ import lombok.experimental.FieldNameConstants;
 @Builder
 @MovieInfo(groups = {CreateAction.class, UpdateAction.class})
 @FieldNameConstants
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record MovieCreateEditDto(
         @NotEmpty(message = "{movie.error.title.empty}")
         String title,

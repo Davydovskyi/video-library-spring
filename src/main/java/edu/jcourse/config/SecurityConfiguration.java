@@ -1,7 +1,9 @@
 package edu.jcourse.config;
 
 import edu.jcourse.database.entity.Role;
+import edu.jcourse.dto.user.AdaptedUserDetails;
 import edu.jcourse.dto.user.UserCreateEditDto;
+import edu.jcourse.dto.user.UserReadDto;
 import edu.jcourse.mapper.user.UserCreateEditMapper;
 import edu.jcourse.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +13,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static edu.jcourse.util.HttpPath.*;
@@ -70,19 +73,20 @@ public class SecurityConfiguration {
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return request -> {
             String email = request.getIdToken().getEmail();
-            UserDetails maybeUserDetails;
+            AdaptedUserDetails maybeUserDetails;
             try {
-                maybeUserDetails = userService.loadUserByUsername(email);
+                maybeUserDetails = (AdaptedUserDetails) userService.loadUserByUsername(email);
             } catch (UsernameNotFoundException e) {
                 UserCreateEditDto createEditDto = createUser(request.getIdToken());
-                userService.create(createEditDto);
+                UserReadDto userReadDto = userService.create(createEditDto);
                 edu.jcourse.database.entity.User user = userCreateEditMapper.map(createEditDto);
-                maybeUserDetails = new User(user.getEmail(), user.getPassword(), Collections.singleton(user.getRole()));
+                maybeUserDetails = new AdaptedUserDetails(userReadDto.id(), user.getEmail(), user.getPassword(), Collections.singleton(user.getRole()));
             }
 
-            UserDetails userDetails = maybeUserDetails;
+            AdaptedUserDetails userDetails = maybeUserDetails;
 
-            DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), request.getIdToken());
+            OidcUserInfo userInfo = new OidcUserInfo(Map.of("userId", userDetails.getId()));
+            DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), request.getIdToken(), userInfo);
 
             Set<Method> userDetailsMethods = Set.of(UserDetails.class.getMethods());
 
