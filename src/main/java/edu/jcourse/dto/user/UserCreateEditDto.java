@@ -31,7 +31,7 @@ public record UserCreateEditDto(
         String rawPassword,
 
         @NotBlank(message = "{registration.error.username.empty}")
-        String username,
+        String userName,
 
         @NotNull(message = "{registration.error.birthdate.empty}")
         @Past(message = "{registration.error.birthdate.invalid}")

@@ -4,10 +4,7 @@ import com.querydsl.core.types.Predicate;
 import edu.jcourse.database.entity.User;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.UserRepository;
-import edu.jcourse.dto.user.AdaptedUserDetails;
-import edu.jcourse.dto.user.UserCreateEditDto;
-import edu.jcourse.dto.user.UserFilter;
-import edu.jcourse.dto.user.UserReadDto;
+import edu.jcourse.dto.user.*;
 import edu.jcourse.mapper.user.UserCreateEditMapper;
 import edu.jcourse.mapper.user.UserReadMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -100,7 +96,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails<Long> loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .map(user -> new AdaptedUserDetails(
                         user.getId(),

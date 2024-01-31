@@ -88,7 +88,7 @@ class PersonRestControllerIT extends IntegrationTestBase {
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.id").value(PERSON_ID),
-                        jsonPath("$.birthDate").value(LocalDate.of(2000, 1, 1).toString()),
+                        jsonPath("$.birth_date").value(LocalDate.of(2000, 1, 1).toString()),
                         jsonPath("$.name").value("Name")
                 );
     }

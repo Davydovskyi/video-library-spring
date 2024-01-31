@@ -46,7 +46,7 @@ class UserServiceIT extends IntegrationTestBase {
     private static UserFilter buildUserFilter(String email, String username) {
         return UserFilter.builder()
                 .email(email)
-                .username(username)
+                .userName(username)
                 .build();
     }
 
@@ -99,7 +99,7 @@ class UserServiceIT extends IntegrationTestBase {
         Optional<UserReadDto> actualResult = userService.update(userReadDto.id(), editDto);
 
         assertThat(actualResult).isPresent();
-        assertThat(actualResult.get().username()).isEqualTo("new username");
+        assertThat(actualResult.get().userName()).isEqualTo("new username");
     }
 
     @Test
@@ -142,7 +142,7 @@ class UserServiceIT extends IntegrationTestBase {
 
     private UserCreateEditDto buildUserCreateEditDto(String username) {
         return UserCreateEditDto.builder()
-                .username(username)
+                .userName(username)
                 .email("email")
                 .rawPassword("password")
                 .birthDate(LocalDate.now())

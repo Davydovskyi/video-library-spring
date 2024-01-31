@@ -339,7 +339,7 @@ class UserServiceTest {
         return UserCreateEditDto.builder()
                 .email("email")
                 .rawPassword("password")
-                .username("username")
+                .userName("username")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now())
                 .image(image)
@@ -351,7 +351,7 @@ class UserServiceTest {
         return UserReadDto.builder()
                 .id(id)
                 .email("email")
-                .username("username")
+                .userName("username")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now())
                 .role(Role.USER)
@@ -375,7 +375,7 @@ class UserServiceTest {
     private UserFilter buildUserFilter() {
         return UserFilter.builder()
                 .email("email")
-                .username("username")
+                .userName("username")
                 .build();
     }
 

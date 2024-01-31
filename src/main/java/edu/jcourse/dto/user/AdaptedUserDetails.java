@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class AdaptedUserDetails extends User {
+public class AdaptedUserDetails extends User implements CustomUserDetails<Long> {
 
     private final Long id;
 

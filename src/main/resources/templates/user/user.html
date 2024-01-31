@@ -19,7 +19,7 @@
     </label><br>
     <label for="username">
         <span th:text="#{username}">UserName</span>:
-        <input id="username" name="username" required th:value="*{username()}" type="text">
+        <input id="username" name="username" required th:value="*{userName()}" type="text">
     </label><br>
     <div th:if="${user.image()}">
         <img th:alt="image" th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id()})}">

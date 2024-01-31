@@ -66,7 +66,7 @@ class UserRestControllerIT extends IntegrationTestBase {
                         status().isCreated(),
                         jsonPath("$.id").isNumber(),
                         jsonPath("$.id", not(equalTo(0))),
-                        jsonPath("$.username").value("username")
+                        jsonPath("$.user_name").value("username")
                 );
     }
 
@@ -79,7 +79,7 @@ class UserRestControllerIT extends IntegrationTestBase {
                 .andExpectAll(
                         status().isBadRequest(),
                         jsonPath("$.message").value("Validation error"),
-                        jsonPath("$.errors").value(hasKey("username"))
+                        jsonPath("$.errors").value(hasKey("userName"))
                 );
     }
 
@@ -92,10 +92,10 @@ class UserRestControllerIT extends IntegrationTestBase {
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.id").value(USER_ID),
-                        jsonPath("$.username").value("username"),
+                        jsonPath("$.user_name").value("username"),
                         jsonPath("$.role").value(Role.USER.toString()),
                         jsonPath("$.gender").value(Gender.MALE.toString()),
-                        jsonPath("$.birthDate").value(LocalDate.of(2000, 1, 1).toString()),
+                        jsonPath("$.birth_date").value(LocalDate.of(2000, 1, 1).toString()),
                         jsonPath("$.email").value("email@email.com")
                 );
     }
@@ -109,7 +109,7 @@ class UserRestControllerIT extends IntegrationTestBase {
                 .andExpectAll(
                         status().isBadRequest(),
                         jsonPath("$.message").value("Validation error"),
-                        jsonPath("$.errors").value(hasKey("username"))
+                        jsonPath("$.errors").value(hasKey("userName"))
                 );
     }
 
@@ -160,7 +160,7 @@ class UserRestControllerIT extends IntegrationTestBase {
     private UserCreateEditDto buildUserCreateEditDto(String username) {
         return UserCreateEditDto.builder()
                 .email("email@email.com")
-                .username(username)
+                .userName(username)
                 .rawPassword("password")
                 .role(Role.USER)
                 .gender(Gender.MALE)

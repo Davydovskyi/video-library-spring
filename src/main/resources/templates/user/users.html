@@ -11,7 +11,7 @@
         <input id="email" name="email" th:placeholder="#{email}" th:value="${filter.email()}" type="text">
     </label>
     <label for="username">
-        <input id="username" name="username" th:placeholder="#{username}" th:value="${filter.username()}" type="text">
+        <input id="username" name="username" th:placeholder="#{username}" th:value="${filter.userName()}" type="text">
     </label>
     <div>
         <label for="page">
@@ -38,7 +38,7 @@
     </button>
 </form>
 <div th:each="user : ${users}">
-    <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.username()}(${user.email()})|">User</a>
+    <a th:href="@{'/users/' + ${user.id()}}" th:text="|${user.id()}. ${user.userName()}(${user.email()})|">User</a>
 </div>
 </body>
 </html>

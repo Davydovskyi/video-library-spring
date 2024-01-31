@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record UserReadDto(Long id,
-                          String username,
+                          String userName,
                           String email,
                           LocalDate birthDate,
                           Role role,

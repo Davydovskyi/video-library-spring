@@ -42,7 +42,7 @@ class MovieRestControllerIT extends IntegrationTestBase {
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$.id").value(MOVIE_ID),
-                        jsonPath("$.moviePersons", hasSize(2))
+                        jsonPath("$.movie_persons", hasSize(2))
                 );
     }
 
@@ -91,7 +91,7 @@ class MovieRestControllerIT extends IntegrationTestBase {
                         jsonPath("$.title").value("Title"),
                         jsonPath("$.country").value("Country"),
                         jsonPath("$.genre").value("ACTION"),
-                        jsonPath("$.releaseYear").value(2022),
+                        jsonPath("$.release_year").value(2022),
                         jsonPath("$.description").value("Description")
                 );
     }

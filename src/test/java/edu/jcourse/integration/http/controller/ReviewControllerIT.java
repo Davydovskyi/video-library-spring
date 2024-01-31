@@ -4,6 +4,7 @@ import edu.jcourse.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static edu.jcourse.dto.review.ReviewCreateEditDto.Fields.*;
@@ -31,10 +32,11 @@ class ReviewControllerIT extends IntegrationTestBase {
     }
 
     @Test
+    @WithUserDetails(value = "admin@gmail.com", userDetailsServiceBeanName = "userService")
     void add() throws Exception {
         mockMvc.perform(get(REVIEWS + REVIEW_ADD, MOVIE_ID))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(flash().attributeExists("showAddReview", "review"))
+                .andExpect(flash().attributeExists("showAddReview", "review", "userId"))
                 .andExpect(redirectedUrl(MOVIES + "/" + MOVIE_ID));
     }
 

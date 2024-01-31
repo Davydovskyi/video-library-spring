@@ -2,9 +2,9 @@ package edu.jcourse.config;
 
 import edu.jcourse.database.entity.Role;
 import edu.jcourse.dto.user.AdaptedUserDetails;
+import edu.jcourse.dto.user.CustomUserDetails;
 import edu.jcourse.dto.user.UserCreateEditDto;
 import edu.jcourse.dto.user.UserReadDto;
-import edu.jcourse.mapper.user.UserCreateEditMapper;
 import edu.jcourse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +13,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,7 +25,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import static edu.jcourse.util.HttpPath.*;
@@ -37,7 +35,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfiguration {
 
     private final UserService userService;
-    private final UserCreateEditMapper userCreateEditMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -73,28 +71,27 @@ public class SecurityConfiguration {
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return request -> {
             String email = request.getIdToken().getEmail();
-            AdaptedUserDetails maybeUserDetails;
+            CustomUserDetails<Long> userDetails;
             try {
-                maybeUserDetails = (AdaptedUserDetails) userService.loadUserByUsername(email);
+                userDetails = userService.loadUserByUsername(email);
             } catch (UsernameNotFoundException e) {
                 UserCreateEditDto createEditDto = createUser(request.getIdToken());
-                UserReadDto userReadDto = userService.create(createEditDto);
-                edu.jcourse.database.entity.User user = userCreateEditMapper.map(createEditDto);
-                maybeUserDetails = new AdaptedUserDetails(userReadDto.id(), user.getEmail(), user.getPassword(), Collections.singleton(user.getRole()));
+                UserReadDto user = userService.create(createEditDto);
+                userDetails = new AdaptedUserDetails(user.id(), user.email(),
+                        passwordEncoder.encode(createEditDto.rawPassword()), Collections.singleton(user.role()));
             }
 
-            AdaptedUserDetails userDetails = maybeUserDetails;
+            CustomUserDetails<Long> finalUserDetails = userDetails;
 
-            OidcUserInfo userInfo = new OidcUserInfo(Map.of("userId", userDetails.getId()));
-            DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), request.getIdToken(), userInfo);
+            DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), request.getIdToken());
 
-            Set<Method> userDetailsMethods = Set.of(UserDetails.class.getMethods());
+            Set<Method> userDetailsMethods = Set.of(CustomUserDetails.class.getMethods());
 
             return (OidcUser) Proxy.newProxyInstance(SecurityConfiguration.class.getClassLoader(),
-                    new Class[]{OidcUser.class, UserDetails.class},
+                    new Class[]{OidcUser.class, CustomUserDetails.class},
                     (proxy, method, args) ->
                             userDetailsMethods.contains(method)
-                                    ? method.invoke(userDetails, args)
+                                    ? method.invoke(finalUserDetails, args)
                                     : method.invoke(oidcUser, args));
         };
     }
@@ -102,7 +99,7 @@ public class SecurityConfiguration {
     private UserCreateEditDto createUser(OidcIdToken idToken) {
         return UserCreateEditDto.builder()
                 .email(idToken.getEmail())
-                .username(idToken.getFullName())
+                .userName(idToken.getFullName())
                 .role(Role.USER)
                 .rawPassword(idToken.getAccessTokenHash())
                 .build();

@@ -33,7 +33,7 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
 
     private void copy(UserCreateEditDto from, User to) {
         to.setEmail(from.email());
-        to.setUserName(from.username());
+        to.setUserName(from.userName());
         to.setBirthDate(from.birthDate());
         to.setRole(from.role());
         to.setGender(from.gender());

@@ -39,7 +39,7 @@ class UserReadMapperTest {
     private UserReadDto buildUserReadDto() {
         return UserReadDto.builder()
                 .id(1L)
-                .username("test")
+                .userName("test")
                 .email("test")
                 .birthDate(LocalDate.now())
                 .role(Role.USER)

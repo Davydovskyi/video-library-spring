@@ -64,7 +64,7 @@ class UserCreateEditMapperTest {
     private UserCreateEditDto buildUserCreateEditDto(String password, MultipartFile image) {
         return UserCreateEditDto.builder()
                 .email("email")
-                .username("username")
+                .userName("username")
                 .birthDate(LocalDate.now())
                 .role(Role.USER)
                 .gender(Gender.MALE)

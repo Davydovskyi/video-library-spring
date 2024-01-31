@@ -82,7 +82,7 @@
                 <td th:text="${review.rate()}">Rate</td>
                 <td>
                     <a th:href="@{/users/{userId}(userId=${review.user().id()})}"
-                       th:text="${review.user().username()}">User</a>
+                       th:text="${review.user().userName()}">User</a>
                 </td>
                 <td th:text="${review.reviewText()}">Review text</td>
             </tr>
