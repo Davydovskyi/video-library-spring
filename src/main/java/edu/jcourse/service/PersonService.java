@@ -1,6 +1,8 @@
 package edu.jcourse.service;
 
 import com.querydsl.core.types.Predicate;
+import edu.jcourse.database.entity.Person;
+import edu.jcourse.database.entity.QPerson;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.PersonRepository;
 import edu.jcourse.dto.person.PersonCreateEditDto;
@@ -19,9 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static edu.jcourse.database.entity.Person.Fields;
-import static edu.jcourse.database.entity.QPerson.person;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class PersonService {
     private final PersonCreateEditMapper personCreateEditMapper;
 
     public List<PersonReadDto> findAll() {
-        Sort sort = Sort.by(Fields.name).ascending();
+        Sort sort = Sort.by(Person.Fields.name).ascending();
         return personRepository.findAll(sort).stream()
                 .map(personReadMapper::map)
                 .toList();
@@ -40,8 +39,8 @@ public class PersonService {
 
     public Page<PersonReadDto> findAll(PersonFilter filter, Pageable pageable) {
         Predicate predicate = QPredicates.builder()
-                .add(filter.name(), person.name::containsIgnoreCase)
-                .add(filter.birthYear(), person.birthDate.year()::in)
+                .add(filter.name(), QPerson.person.name::containsIgnoreCase)
+                .add(filter.birthYear(), QPerson.person.birthDate.year()::in)
                 .buildAnd();
 
         PersonFilter.Sort sortBy = Optional.ofNullable(filter.sortBy())
@@ -89,8 +88,8 @@ public class PersonService {
 
     public Optional<PersonReadDto> findByAllFields(PersonFilter filter) {
         Predicate predicate = QPredicates.builder()
-                .add(filter.name(), person.name::equalsIgnoreCase)
-                .add(filter.birthDate(), person.birthDate::eq)
+                .add(filter.name(), QPerson.person.name::equalsIgnoreCase)
+                .add(filter.birthDate(), QPerson.person.birthDate::eq)
                 .buildAnd();
 
         return personRepository.findOne(predicate)

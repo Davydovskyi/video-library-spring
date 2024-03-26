@@ -1,6 +1,7 @@
 package edu.jcourse.service;
 
 import com.querydsl.core.types.Predicate;
+import edu.jcourse.database.entity.QUser;
 import edu.jcourse.database.entity.User;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.UserRepository;
@@ -22,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.Optional;
-
-import static edu.jcourse.database.entity.QUser.user;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,8 +48,8 @@ public class UserService implements UserDetailsService {
 
     public Page<UserReadDto> findAll(UserFilter filter, Pageable pageable) {
         Predicate predicate = QPredicates.builder()
-                .add(filter.email(), user.email::containsIgnoreCase)
-                .add(filter.userName(), user.userName::containsIgnoreCase)
+                .add(filter.email(), QUser.user.email::containsIgnoreCase)
+                .add(filter.userName(), QUser.user.userName::containsIgnoreCase)
                 .buildAnd();
 
         UserFilter.Sort sortBy = Optional.ofNullable(filter.sortBy())

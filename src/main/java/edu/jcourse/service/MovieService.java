@@ -1,6 +1,7 @@
 package edu.jcourse.service;
 
 import com.querydsl.core.types.Predicate;
+import edu.jcourse.database.entity.QMovie;
 import edu.jcourse.database.querydsl.QPredicates;
 import edu.jcourse.database.repository.MovieRepository;
 import edu.jcourse.dto.movie.MovieCreateEditDto;
@@ -18,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static edu.jcourse.database.entity.QMovie.movie;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,10 +30,10 @@ public class MovieService {
 
     public Page<MovieReadDto> findAll(MovieFilter filter, Pageable pageable) {
         Predicate predicate = QPredicates.builder()
-                .add(filter.title(), movie.title::containsIgnoreCase)
-                .add(filter.releaseYear(), movie.releaseYear::eq)
-                .add(filter.country(), movie.country::containsIgnoreCase)
-                .add(filter.genre(), movie.genre::eq)
+                .add(filter.title(), QMovie.movie.title::containsIgnoreCase)
+                .add(filter.releaseYear(), QMovie.movie.releaseYear::eq)
+                .add(filter.country(), QMovie.movie.country::containsIgnoreCase)
+                .add(filter.genre(), QMovie.movie.genre::eq)
                 .buildAnd();
 
         MovieFilter.Sort sortBy = Optional.ofNullable(filter.sortBy())
@@ -63,10 +62,10 @@ public class MovieService {
 
     public Optional<MovieReadDto> findByAllFields(MovieFilter filter) {
         Predicate predicate = QPredicates.builder()
-                .add(filter.title(), movie.title::equalsIgnoreCase)
-                .add(filter.releaseYear(), movie.releaseYear::eq)
-                .add(filter.country(), movie.country::equalsIgnoreCase)
-                .add(filter.genre(), movie.genre::eq)
+                .add(filter.title(), QMovie.movie.title::equalsIgnoreCase)
+                .add(filter.releaseYear(), QMovie.movie.releaseYear::eq)
+                .add(filter.country(), QMovie.movie.country::equalsIgnoreCase)
+                .add(filter.genre(), QMovie.movie.genre::eq)
                 .buildAnd();
 
         return movieRepository.findOne(predicate)
