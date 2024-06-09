@@ -1,11 +1,8 @@
-app:
-  image:
-    bucket: C:/DevTools/temp/userImage
 spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5433/postgres
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
@@ -49,3 +46,6 @@ logging:
     rollingpolicy:
       max-history: 3
       max-file-size: 1MB
+app:
+  image:
+    bucket: C:/DevTools/temp/userImage

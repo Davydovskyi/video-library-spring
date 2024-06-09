@@ -11,6 +11,11 @@ apply from: './version.gradle'
 group = 'edu.jcourse'
 version = '1.0'
 
+java {
+    sourceCompatibility = versions.java
+    targetCompatibility = versions.java
+}
+
 repositories {
     mavenCentral()
 }

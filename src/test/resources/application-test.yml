@@ -1,6 +1,3 @@
-app:
-  image:
-    bucket: src/test/resources/image
 spring:
   datasource:
     username: test
@@ -15,3 +12,6 @@ logging:
   file:
     name:
     path:
+app:
+  image:
+    bucket: src/test/resources/image
