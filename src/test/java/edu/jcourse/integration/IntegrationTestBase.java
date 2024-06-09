@@ -13,7 +13,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @WithMockUser(username = "test@gmail.com", password = "test", authorities = {"USER", "ADMIN"})
 public abstract class IntegrationTestBase {
 
-    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>("postgres:16.0");
+    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>("postgres:16.2");
 
     @BeforeAll
     static void runContainer() {

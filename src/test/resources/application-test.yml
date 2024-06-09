@@ -1,4 +1,6 @@
-app.image.bucket: src/test/resources/image
+app:
+  image:
+    bucket: src/test/resources/image
 spring:
   datasource:
     username: test
