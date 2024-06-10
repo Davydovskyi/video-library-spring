@@ -26,7 +26,6 @@ services:
       DATABASE_URL: jdbc:postgresql://some-postgres:5432/video-library-spring
     networks:
       - video-library-network
-      - frontend
     build:
       context: .
       dockerfile: Dockerfile
