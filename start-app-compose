@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker compose up -d
+start http://localhost:8082
+#open http://localhost:8082

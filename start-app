@@ -4,3 +4,5 @@ docker build -f Dockerfile -t video-library-spring:1.0 .
 docker network create video-library-network
 docker run --rm -d --network=video-library-network --name some-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=video-library-spring postgres:16.2
 docker run --rm -d --network=video-library-network --name video-library-spring -p 8082:8080 video-library-spring:1.0
+start http://localhost:8082
+#open http://localhost:8082
