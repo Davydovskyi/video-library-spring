@@ -110,7 +110,7 @@ There are two predefined users that you can use:
 
 ## Database structure
 
-![](./media/database_structure.PNG "database structure")
-![](./media/database_structure2.PNG "database structure2")
+![](./media/database_structure.png "database structure")
+![](./media/database_structure2.png "database structure2")
 
 #### Test Coverage - 86% (Unit and Integration tests)
