@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker stop video-library-spring
+docker stop some-postgres
+docker network rm video-library-network
